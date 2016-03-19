@@ -1,4 +1,4 @@
-# MaterialBottomNavigation
+# Material Bottom Navigation
 
 BottomNavigationView
 
