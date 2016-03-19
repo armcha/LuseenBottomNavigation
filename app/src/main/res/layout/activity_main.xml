@@ -12,7 +12,7 @@
         android:background="@drawable/shadow"
         android:id="@+id/view" />
 
-    <com.luseen.luseenbottomnavigation.BottomNavigation
+    <com.luseen.luseenbottomnavigation.BottomNavigation.BottomNavigation
         android:id="@+id/bottomNavigation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -22,7 +22,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="0"
         android:id="@+id/textView"
         android:layout_above="@+id/view"
         android:layout_centerHorizontal="true"

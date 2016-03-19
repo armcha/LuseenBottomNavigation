@@ -1,4 +1,4 @@
-package com.luseen.luseenbottomnavigation;
+package com.luseen.luseenbottomnavigation.BottomNavigation;
 
 /**
  * Created by Chatikyan on 18.03.2016.

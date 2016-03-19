@@ -1,4 +1,4 @@
-package com.luseen.luseenbottomnavigation;
+package com.luseen.luseenbottomnavigation.BottomNavigation;
 
 import android.animation.ArgbEvaluator;
 import android.animation.ValueAnimator;

@@ -1,10 +1,10 @@
-package com.luseen.luseenbottomnavigation;
+package com.luseen.luseenbottomnavigation.BottomNavigation;
 
 import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.content.Context;
 import android.os.Build;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.view.ViewCompat;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.util.TypedValue;
@@ -16,6 +16,8 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.luseen.luseenbottomnavigation.R;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -64,7 +66,6 @@ public class BottomNavigation extends FrameLayout {
             setElevation(getResources().getDimension(R.dimen.bottom_navigation_elevation));
         }
         setLayoutParams(params);
-        Log.e("onMeasure", "onMeasure");
     }
 
     @Override
@@ -106,6 +107,8 @@ public class BottomNavigation extends FrameLayout {
             }
             icon.setImageResource(bottomNavigationItems.get(i).getImageResource());
             icon.setColorFilter(ContextCompat.getColor(context, i == 0 ? R.color.colorActive : R.color.colorInactive));
+            icon.setScaleX((float) 1.1);
+            icon.setScaleY((float) 1.1);
             title.setText(bottomNavigationItems.get(i).getTitle());
             LayoutParams itemParams = new LayoutParams(itemWidth, itemHeight);
             items.addView(view, itemParams);
@@ -119,9 +122,11 @@ public class BottomNavigation extends FrameLayout {
 
     }
 
-    public void addItem(BottomNavigationItem item) {
+    public void addTab(BottomNavigationItem item) {
         bottomNavigationItems.add(item);
     }
+
+
 
     private void onBottomNavigationItemClick(final int itemIndex) {
         if (currentItem == itemIndex) {
@@ -143,37 +148,28 @@ public class BottomNavigation extends FrameLayout {
                 BottomNavigationUtils.changeTextSize(title, textInactiveSize, textActiveSize);
                 BottomNavigationUtils.imageColorChange(icon, itemInactiveColor, itemActiveColor);
                 BottomNavigationUtils.changeTopPadding(view, viewInactivePaddingTop, viewActivePaddingTop);
+                icon.animate()
+                        .setDuration(150)
+                        .scaleX((float) 1.1)
+                        .scaleY((float) 1.1)
+                        .start();
                 int centerX = (int) viewList.get(itemIndex).getX() + viewList.get(itemIndex).getWidth() / 2;
                 int centerY = viewList.get(itemIndex).getHeight() / 2;
                 int finalRadius = Math.max(getWidth(), getHeight());
                 if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
                     backgroundColorTemp.setBackgroundColor(bottomNavigationItems.get(itemIndex).getColor());
                     Animator changeBackgroundColor = ViewAnimationUtils.createCircularReveal(backgroundColorTemp, centerX, centerY, 0, finalRadius);
-                    changeBackgroundColor.addListener(new Animator.AnimatorListener() {
-                        @Override
-                        public void onAnimationStart(Animator animation) {
-
-                        }
-
+                    changeBackgroundColor.addListener(new AnimatorListenerAdapter() {
                         @Override
                         public void onAnimationEnd(Animator animation) {
+                            super.onAnimationEnd(animation);
                             setBackgroundColor(bottomNavigationItems.get(itemIndex).getColor());
-                        }
-
-                        @Override
-                        public void onAnimationCancel(Animator animation) {
-
-                        }
-
-                        @Override
-                        public void onAnimationRepeat(Animator animation) {
-
                         }
                     });
                     changeBackgroundColor.start();
                 } else {
                     BottomNavigationUtils.backgroundColorChange
-                            (this,bottomNavigationItems.get(currentItem).getColor(),bottomNavigationItems.get(itemIndex).getColor());
+                            (this, bottomNavigationItems.get(currentItem).getColor(), bottomNavigationItems.get(itemIndex).getColor());
                 }
             } else if (i == currentItem) {
                 View view = viewList.get(i).findViewById(R.id.bottom_navigation_container);
@@ -183,6 +179,11 @@ public class BottomNavigation extends FrameLayout {
                 BottomNavigationUtils.changeTopPadding(view, viewActivePaddingTop, viewInactivePaddingTop);
                 BottomNavigationUtils.changeTextColor(title, itemActiveColor, itemInactiveColor);
                 BottomNavigationUtils.changeTextSize(title, textActiveSize, textInactiveSize);
+                icon.animate()
+                        .setDuration(150)
+                        .scaleX(1)
+                        .scaleY(1)
+                        .start();
             }
         }
 
@@ -190,7 +191,6 @@ public class BottomNavigation extends FrameLayout {
             onBottomNavigationItemClickListener.onNavigationItemClick(itemIndex);
         currentItem = itemIndex;
     }
-
 
     //setup interface for item onClick
 
