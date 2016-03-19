@@ -30,6 +30,8 @@ public class MainActivity extends AppCompatActivity {
         bottomNavigation.addItem(bottomNavigationItem1);
         bottomNavigation.addItem(bottomNavigationItem2);
 
+        //Test Push
+
         bottomNavigation.setOnBottomNavigationItemClickListener(new BottomNavigation.OnBottomNavigationItemClickListener() {
             @Override
             public void onNavigationItemClick(int index) {
