@@ -3,7 +3,7 @@
 BottomNavigationView
 
 Created according by Google [guideLine][1]
-[1]: https://www.google.com/design/spec/components/bottom-navigation.html#bottom-navigation-specs
+[1]: https://www.google.com/design/spec/components/bottom-navigation.html#bottom-navigation-usage
 [2]: http://luseen.com/
 By [Luseen][2] Technologies 
 
