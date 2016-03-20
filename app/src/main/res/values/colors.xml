@@ -8,5 +8,5 @@
     <color name="thirdColor">#FF5722</color>
     <color name="fourthColor">#4CAF50</color>
     <color name="colorActive">#FFFFFF</color>
-    <color name="colorInactive">#c6bfbd</color>
+    <color name="colorInactive">#d2d0d1</color>
 </resources>

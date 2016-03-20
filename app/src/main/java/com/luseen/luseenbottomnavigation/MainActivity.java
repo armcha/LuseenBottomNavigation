@@ -18,6 +18,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         t = (TextView) findViewById(R.id.textView);
         bottomNavigation = (BottomNavigation) findViewById(R.id.bottomNavigation);
+        if (bottomNavigation != null)
+        bottomNavigation.isWithText(false);
 
         BottomNavigationItem bottomNavigationItem = new BottomNavigationItem
                 ("Record", getResources().getColor(R.color.firstColor), R.drawable.ic_mic_black_24dp);
@@ -32,8 +34,6 @@ public class MainActivity extends AppCompatActivity {
         bottomNavigation.addTab(bottomNavigationItem1);
         bottomNavigation.addTab(bottomNavigationItem2);
         bottomNavigation.addTab(bottomNavigationItem3);
-
-        //Test Push
 
         bottomNavigation.setOnBottomNavigationItemClickListener(new BottomNavigation.OnBottomNavigationItemClickListener() {
             @Override
