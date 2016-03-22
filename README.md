@@ -9,10 +9,12 @@ By [Luseen][2] Technologies
 
 
 ![](ScreenShots/screen1.png)
+![](ScreenShots/screen2.png)
 ![](ScreenShots/screen3.png)
 
 ![](ScreenShots/gifView.gif)
 ![](ScreenShots/gifView2.gif)
+![](ScreenShots/gifView3.gif)
 
 
 License

@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.luseen.luseenbottomnavigation.R;
@@ -26,11 +27,12 @@ import java.util.List;
 /**
  * Created by Chatikyan on 18.03.2016.
  */
-public class BottomNavigation extends FrameLayout {
+public class BottomNavigationView extends RelativeLayout {
 
     private OnBottomNavigationItemClickListener onBottomNavigationItemClickListener;
     private Context context;
     private final int NAVIGATION_HEIGHT = (int) getResources().getDimension(R.dimen.bottom_navigation_height);
+    private int SHADOW_HEIGHT;
     private int itemWidth;
     private int itemHeight;
     private int currentItem = 0;
@@ -39,23 +41,23 @@ public class BottomNavigation extends FrameLayout {
     private boolean coloredBackground = true;
     private int itemActiveColor;
     private int itemInactiveColor;
-
+    private FrameLayout container;
     private List<BottomNavigationItem> bottomNavigationItems = new ArrayList<>();
     private List<View> viewList = new ArrayList<>();
 
 
-    public BottomNavigation(Context context) {
+    public BottomNavigationView(Context context) {
         super(context);
         this.context = context;
     }
 
 
-    public BottomNavigation(Context context, AttributeSet attrs, int defStyleAttr) {
+    public BottomNavigationView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         this.context = context;
     }
 
-    public BottomNavigation(Context context, AttributeSet attrs) {
+    public BottomNavigationView(Context context, AttributeSet attrs) {
         super(context, attrs);
         this.context = context;
     }
@@ -67,12 +69,15 @@ public class BottomNavigation extends FrameLayout {
         if (coloredBackground) {
             itemActiveColor = ContextCompat.getColor(context, R.color.colorActive);
             itemInactiveColor = ContextCompat.getColor(context, R.color.colorInactive);
+            SHADOW_HEIGHT = (int) getResources().getDimension(R.dimen.bottom_navigation_shadow_height);
         } else {
             itemActiveColor = ContextCompat.getColor(context, R.color.colorAccent);
             itemInactiveColor = ContextCompat.getColor(context, R.color.withoutColoredBackground);
+            SHADOW_HEIGHT = (int) getResources().getDimension(R.dimen.bottom_navigation_shadow_height_without_colored_background);
         }
         params.width = ViewGroup.LayoutParams.MATCH_PARENT;
-        params.height = NAVIGATION_HEIGHT;
+        params.height = NAVIGATION_HEIGHT+SHADOW_HEIGHT;
+        //setOrientation(LinearLayout.VERTICAL);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             setElevation(getResources().getDimension(R.dimen.bottom_navigation_elevation));
         }
@@ -84,18 +89,28 @@ public class BottomNavigation extends FrameLayout {
         super.onSizeChanged(w, h, oldw, oldh);
         int white = ContextCompat.getColor(context, R.color.white);
         backgroundColorTemp = new View(context);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            LayoutParams backgroundLayoutParams = new LayoutParams(
-                    ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-            addView(backgroundColorTemp, backgroundLayoutParams);
-        }
         viewList.clear();
         itemWidth = getWidth() / bottomNavigationItems.size();
         itemHeight = LayoutParams.MATCH_PARENT;
+        container = new FrameLayout(context);
+        View shadow = new View(context);
         LinearLayout items = new LinearLayout(context);
         items.setOrientation(LinearLayout.HORIZONTAL);
+        LayoutParams containerParams = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, NAVIGATION_HEIGHT);
         LayoutParams params = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, NAVIGATION_HEIGHT);
-        addView(items, params);
+        LayoutParams shadowParams = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, SHADOW_HEIGHT);
+        containerParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+        shadowParams.addRule(RelativeLayout.ABOVE,container.getId());
+        shadow.setBackgroundResource(R.drawable.shadow);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            LayoutParams backgroundLayoutParams = new LayoutParams(
+                    ViewGroup.LayoutParams.MATCH_PARENT, NAVIGATION_HEIGHT);
+            backgroundLayoutParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+            container.addView(backgroundColorTemp, backgroundLayoutParams);
+        }
+        addView(shadow, shadowParams);
+        addView(container, containerParams);
+        container.addView(items,params);
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         for (int i = 0; i < bottomNavigationItems.size(); i++) {
@@ -111,7 +126,7 @@ public class BottomNavigation extends FrameLayout {
             title.setTextColor(itemInactiveColor);
             viewList.add(view);
             if (i == currentItem) {
-                setBackgroundColor(bottomNavigationItems.get(index).getColor());
+                container.setBackgroundColor(bottomNavigationItems.get(index).getColor());
                 title.setTextColor(currentItem == i ?
                         itemActiveColor :
                         itemInactiveColor);
@@ -186,13 +201,13 @@ public class BottomNavigation extends FrameLayout {
                         @Override
                         public void onAnimationEnd(Animator animation) {
                             super.onAnimationEnd(animation);
-                            setBackgroundColor(bottomNavigationItems.get(itemIndex).getColor());
+                            container.setBackgroundColor(bottomNavigationItems.get(itemIndex).getColor());
                         }
                     });
                     changeBackgroundColor.start();
                 } else {
                     BottomNavigationUtils.backgroundColorChange
-                            (this, bottomNavigationItems.get(currentItem).getColor(), bottomNavigationItems.get(itemIndex).getColor());
+                            (container, bottomNavigationItems.get(currentItem).getColor(), bottomNavigationItems.get(itemIndex).getColor());
                 }
             } else if (i == currentItem) {
                 View view = viewList.get(i).findViewById(R.id.bottom_navigation_container);

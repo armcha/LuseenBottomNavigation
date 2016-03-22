@@ -6,14 +6,7 @@
     android:background="@android:color/white"
     tools:context="com.luseen.luseenbottomnavigation.MainActivity">
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="4dp"
-        android:layout_above="@+id/bottomNavigation"
-        android:background="@drawable/shadow"
-        android:id="@+id/view" />
-
-    <com.luseen.luseenbottomnavigation.BottomNavigation.BottomNavigation
+    <com.luseen.luseenbottomnavigation.BottomNavigation.BottomNavigationView
         android:id="@+id/bottomNavigation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -24,7 +17,7 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:id="@+id/textView"
-        android:layout_above="@+id/view"
+        android:layout_above="@+id/bottomNavigation"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="58dp" />
 

@@ -3,7 +3,8 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="bottom_navigation_elevation">8dp</dimen>
-
+    <dimen name="bottom_navigation_shadow_height">8dp</dimen>
+    <dimen name="bottom_navigation_shadow_height_without_colored_background">4dp</dimen>
     <dimen name="bottom_navigation_min_width">104dp</dimen>
     <dimen name="bottom_navigation_max_width">168dp</dimen>
     <dimen name="bottom_navigation_height">56dp</dimen>

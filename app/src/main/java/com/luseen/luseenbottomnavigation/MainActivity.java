@@ -4,12 +4,12 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
 
-import com.luseen.luseenbottomnavigation.BottomNavigation.BottomNavigation;
+import com.luseen.luseenbottomnavigation.BottomNavigation.BottomNavigationView;
 import com.luseen.luseenbottomnavigation.BottomNavigation.BottomNavigationItem;
 
 public class MainActivity extends AppCompatActivity {
 
-    BottomNavigation bottomNavigation;
+    BottomNavigationView bottomNavigationView;
     TextView t;
 
     @Override
@@ -17,10 +17,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         t = (TextView) findViewById(R.id.textView);
-        bottomNavigation = (BottomNavigation) findViewById(R.id.bottomNavigation);
-        if (bottomNavigation != null){
-            bottomNavigation.isWithText(true);
-            bottomNavigation.isColoredBackground(false);
+        bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavigation);
+        if (bottomNavigationView != null){
+            bottomNavigationView.isWithText(true);
+            bottomNavigationView.isColoredBackground(false);
         }
         BottomNavigationItem bottomNavigationItem = new BottomNavigationItem
                 ("Record", getResources().getColor(R.color.firstColor), R.drawable.ic_mic_black_24dp);
@@ -32,12 +32,12 @@ public class MainActivity extends AppCompatActivity {
                 ("Github", getResources().getColor(R.color.fourthColor), R.drawable.github_circle);
 
 
-        bottomNavigation.addTab(bottomNavigationItem);
-        bottomNavigation.addTab(bottomNavigationItem1);
-        bottomNavigation.addTab(bottomNavigationItem2);
-        bottomNavigation.addTab(bottomNavigationItem3);
+        bottomNavigationView.addTab(bottomNavigationItem);
+        bottomNavigationView.addTab(bottomNavigationItem1);
+        bottomNavigationView.addTab(bottomNavigationItem2);
+        bottomNavigationView.addTab(bottomNavigationItem3);
 
-        bottomNavigation.setOnBottomNavigationItemClickListener(new BottomNavigation.OnBottomNavigationItemClickListener() {
+        bottomNavigationView.setOnBottomNavigationItemClickListener(new BottomNavigationView.OnBottomNavigationItemClickListener() {
             @Override
             public void onNavigationItemClick(int index) {
                 switch (index) {
