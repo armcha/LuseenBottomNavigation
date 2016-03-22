@@ -27,7 +27,6 @@
         android:layout_gravity="bottom|center_horizontal"
         android:gravity="center"
         android:lines="1"
-        android:textColor="@color/colorInactive"
         android:textSize="@dimen/bottom_navigation_text_size_inactive"
         tools:text="Label One"/>
 

@@ -36,8 +36,9 @@ public class BottomNavigation extends FrameLayout {
     private int currentItem = 0;
     private View backgroundColorTemp;
     private boolean withText = true;
-
-    //View view;
+    private boolean coloredBackground = true;
+    private int itemActiveColor;
+    private int itemInactiveColor;
 
     private List<BottomNavigationItem> bottomNavigationItems = new ArrayList<>();
     private List<View> viewList = new ArrayList<>();
@@ -63,6 +64,13 @@ public class BottomNavigation extends FrameLayout {
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
         ViewGroup.LayoutParams params = getLayoutParams();
+        if (coloredBackground) {
+            itemActiveColor = ContextCompat.getColor(context, R.color.colorActive);
+            itemInactiveColor = ContextCompat.getColor(context, R.color.colorInactive);
+        } else {
+            itemActiveColor = ContextCompat.getColor(context, R.color.colorAccent);
+            itemInactiveColor = ContextCompat.getColor(context, R.color.withoutColoredBackground);
+        }
         params.width = ViewGroup.LayoutParams.MATCH_PARENT;
         params.height = NAVIGATION_HEIGHT;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -74,6 +82,7 @@ public class BottomNavigation extends FrameLayout {
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
+        int white = ContextCompat.getColor(context, R.color.white);
         backgroundColorTemp = new View(context);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             LayoutParams backgroundLayoutParams = new LayoutParams(
@@ -87,36 +96,37 @@ public class BottomNavigation extends FrameLayout {
         items.setOrientation(LinearLayout.HORIZONTAL);
         LayoutParams params = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, NAVIGATION_HEIGHT);
         addView(items, params);
-        Log.e("onSizeChanged", "onSizeChanged");
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         for (int i = 0; i < bottomNavigationItems.size(); i++) {
             final int index = i;
+            if (!coloredBackground)
+                bottomNavigationItems.get(i).setColor(white);
             int textActivePaddingTop = (int) context.getResources().getDimension(R.dimen.bottom_navigation_padding_top_active);
             int viewInactivePaddingTop = (int) context.getResources().getDimension(R.dimen.bottom_navigation_padding_top_inactive);
             int viewInactivePaddingTopWithoutText = (int) context.getResources().getDimension(R.dimen.bottom_navigation_padding_top_inactive_without_text);
             final View view = inflater.inflate(R.layout.bottom_navigation, this, false);
             ImageView icon = (ImageView) view.findViewById(R.id.bottom_navigation_item_icon);
             TextView title = (TextView) view.findViewById(R.id.bottom_navigation_item_title);
-
+            title.setTextColor(itemInactiveColor);
             viewList.add(view);
             if (i == currentItem) {
                 setBackgroundColor(bottomNavigationItems.get(index).getColor());
                 title.setTextColor(currentItem == i ?
-                        getResources().getColor(R.color.colorActive) :
-                        getResources().getColor(R.color.colorInactive));
+                        itemActiveColor :
+                        itemInactiveColor);
             }
-            view.setPadding(view.getPaddingLeft(),i == 0 ?textActivePaddingTop: withText? viewInactivePaddingTop:viewInactivePaddingTopWithoutText, view.getPaddingRight(),
+            view.setPadding(view.getPaddingLeft(), i == 0 ? textActivePaddingTop : withText ? viewInactivePaddingTop : viewInactivePaddingTopWithoutText, view.getPaddingRight(),
                     view.getPaddingBottom());
             icon.setImageResource(bottomNavigationItems.get(i).getImageResource());
-            icon.setColorFilter(ContextCompat.getColor(context, i == 0 ? R.color.colorActive : R.color.colorInactive));
+            icon.setColorFilter(i == 0 ? itemActiveColor : itemInactiveColor);
             if (i == 0) {
                 icon.setScaleX((float) 1.1);
                 icon.setScaleY((float) 1.1);
             }
             title.setTextSize(TypedValue.COMPLEX_UNIT_PX, currentItem == i ?
                     context.getResources().getDimension(R.dimen.bottom_navigation_text_size_active) :
-                    withText? context.getResources().getDimension(R.dimen.bottom_navigation_text_size_inactive):0);
+                    withText ? context.getResources().getDimension(R.dimen.bottom_navigation_text_size_inactive) : 0);
             title.setText(bottomNavigationItems.get(i).getTitle());
             LayoutParams itemParams = new LayoutParams(itemWidth, itemHeight);
             items.addView(view, itemParams);
@@ -138,6 +148,10 @@ public class BottomNavigation extends FrameLayout {
         this.withText = withText;
     }
 
+    public void isColoredBackground(boolean coloredBackground) {
+        this.coloredBackground = coloredBackground;
+    }
+
     private void onBottomNavigationItemClick(final int itemIndex) {
         if (currentItem == itemIndex) {
             return;
@@ -148,8 +162,6 @@ public class BottomNavigation extends FrameLayout {
         int viewInactivePaddingTopWithoutText = (int) context.getResources().getDimension(R.dimen.bottom_navigation_padding_top_inactive_without_text);
         float textActiveSize = context.getResources().getDimension(R.dimen.bottom_navigation_text_size_active);
         float textInactiveSize = context.getResources().getDimension(R.dimen.bottom_navigation_text_size_inactive);
-        int itemActiveColor = ContextCompat.getColor(context, R.color.colorActive);
-        int itemInactiveColor = ContextCompat.getColor(context, R.color.colorInactive);
         for (int i = 0; i < viewList.size(); i++) {
             if (i == itemIndex) {
                 View view = viewList.get(itemIndex).findViewById(R.id.bottom_navigation_container);
@@ -158,7 +170,7 @@ public class BottomNavigation extends FrameLayout {
                 BottomNavigationUtils.changeTextColor(title, itemInactiveColor, itemActiveColor);
                 BottomNavigationUtils.changeTextSize(title, withText ? textInactiveSize : 0, textActiveSize);
                 BottomNavigationUtils.imageColorChange(icon, itemInactiveColor, itemActiveColor);
-                BottomNavigationUtils.changeTopPadding(view, withText? viewInactivePaddingTop :viewInactivePaddingTopWithoutText, viewActivePaddingTop);
+                BottomNavigationUtils.changeTopPadding(view, withText ? viewInactivePaddingTop : viewInactivePaddingTopWithoutText, viewActivePaddingTop);
                 icon.animate()
                         .setDuration(150)
                         .scaleX((float) 1.1)
@@ -187,7 +199,7 @@ public class BottomNavigation extends FrameLayout {
                 final TextView title = (TextView) view.findViewById(R.id.bottom_navigation_item_title);
                 final ImageView icon = (ImageView) view.findViewById(R.id.bottom_navigation_item_icon);
                 BottomNavigationUtils.imageColorChange(icon, itemActiveColor, itemInactiveColor);
-                BottomNavigationUtils.changeTopPadding(view, viewActivePaddingTop,withText?viewInactivePaddingTop: viewInactivePaddingTopWithoutText);
+                BottomNavigationUtils.changeTopPadding(view, viewActivePaddingTop, withText ? viewInactivePaddingTop : viewInactivePaddingTopWithoutText);
                 BottomNavigationUtils.changeTextColor(title, itemActiveColor, itemInactiveColor);
                 BottomNavigationUtils.changeTextSize(title, textActiveSize, withText ? textInactiveSize : 0);
                 icon.animate()

@@ -18,9 +18,10 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         t = (TextView) findViewById(R.id.textView);
         bottomNavigation = (BottomNavigation) findViewById(R.id.bottomNavigation);
-        if (bottomNavigation != null)
-        bottomNavigation.isWithText(false);
-
+        if (bottomNavigation != null){
+            bottomNavigation.isWithText(true);
+            bottomNavigation.isColoredBackground(false);
+        }
         BottomNavigationItem bottomNavigationItem = new BottomNavigationItem
                 ("Record", getResources().getColor(R.color.firstColor), R.drawable.ic_mic_black_24dp);
         BottomNavigationItem bottomNavigationItem1 = new BottomNavigationItem
@@ -29,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
                 ("Books", getResources().getColor(R.color.thirdColor), R.drawable.ic_book_black_24dp);
         BottomNavigationItem bottomNavigationItem3 = new BottomNavigationItem
                 ("Github", getResources().getColor(R.color.fourthColor), R.drawable.github_circle);
+
 
         bottomNavigation.addTab(bottomNavigationItem);
         bottomNavigation.addTab(bottomNavigationItem1);

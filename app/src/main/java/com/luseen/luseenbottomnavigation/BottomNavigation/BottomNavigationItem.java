@@ -14,7 +14,6 @@ public class BottomNavigationItem {
         this.color = color;
         this.imageResource = imageResource;
     }
-
     public int getImageResource() {
         return imageResource;
     }

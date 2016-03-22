@@ -11,7 +11,7 @@
 
     <dimen name="bottom_navigation_padding_top_active">5dp</dimen>
     <dimen name="bottom_navigation_padding_top_inactive">9dp</dimen>
-    <dimen name="bottom_navigation_padding_top_inactive_without_text">15dp</dimen>
+    <dimen name="bottom_navigation_padding_top_inactive_without_text">16dp</dimen>
     <dimen name="bottom_navigation_padding_bottom">7dp</dimen>
     <dimen name="bottom_navigation_padding_left">12dp</dimen>
     <dimen name="bottom_navigation_padding_right">12dp</dimen>
