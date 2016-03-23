@@ -15,7 +15,7 @@ By [Luseen][2] Technologies
 Download
 --------
 
-Grab via Gradle:
+Gradle:
 ```groovy
 repositories {
     maven {
@@ -24,7 +24,7 @@ repositories {
 }
 compile 'com.github.armcha:LuseenBottomNavigation:0.0.1'
 ```
-or Maven:
+Maven:
 ```xml
 <dependency>
   <groupId>com.github.armcha</groupId>
@@ -36,7 +36,7 @@ or Maven:
 Usage
 -----
 
-Add the LoginView to your layout
+Add the BottomNavigationView to your layout
 
 ```xml
  <com.luseen.luseenbottomnavigation.BottomNavigation.BottomNavigationView
@@ -46,10 +46,24 @@ Add the LoginView to your layout
         android:layout_alignParentBottom="true" />
 ```
 
+Add BottomNavigation items 
+
+```java
+  BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavigation);
+  
+  BottomNavigationItem bottomNavigationItem = new BottomNavigationItem
+                ("Record", getResources().getColor(R.color.firstColor), R.drawable.ic_mic_black_24dp);
+  BottomNavigationItem bottomNavigationItem1 = new BottomNavigationItem
+                ("Like", getResources().getColor(R.color.secondColor), R.drawable.ic_favorite_black_24dp); 
+                
+  bottomNavigationView.addTab(bottomNavigationItem);
+  bottomNavigationView.addTab(bottomNavigationItem1);
+```
+
 Then set your `OnBottomNavigationItemClickListener`
 
 ```java
- BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavigation);
+ 
  bottomNavigationView.setOnBottomNavigationItemClickListener(new BottomNavigationView.OnBottomNavigationItemClickListener() {
             @Override
             public void onNavigationItemClick(int index) {
@@ -74,6 +88,7 @@ Cusomize
 ## Contact 
 
 Pull requests are more than welcome.
+
 Please fell free to contact me if there is any problem when using the library.
 
 - **email**: armcha01@gmail.com
