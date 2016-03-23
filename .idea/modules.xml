@@ -2,8 +2,11 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/BottomNavigationViewLibrary/BottomNavigationViewLibrary.iml" filepath="$PROJECT_DIR$/BottomNavigationViewLibrary/BottomNavigationViewLibrary.iml" />
       <module fileurl="file://$PROJECT_DIR$/LuseenBottomNavigation.iml" filepath="$PROJECT_DIR$/LuseenBottomNavigation.iml" />
-      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/BottomNavigationViewLibrary/app.iml" filepath="$PROJECT_DIR$/BottomNavigationViewLibrary/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/sample/myapplication.iml" filepath="$PROJECT_DIR$/sample/myapplication.iml" />
+      <module fileurl="file://$PROJECT_DIR$/sample/sample.iml" filepath="$PROJECT_DIR$/sample/sample.iml" />
     </modules>
   </component>
 </project>
