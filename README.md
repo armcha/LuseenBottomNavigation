@@ -17,7 +17,7 @@ Download
 
 Gradle:
 ```groovy
-compile 'com.github.armcha:LuseenBottomNavigation:0.0.1'
+compile 'com.github.armcha:LuseenBottomNavigation:1.1'
 ```
 Maven:
 ```xml
@@ -76,6 +76,7 @@ Cusomize
 ![](ScreenShots/gifView.gif)
 ```java
  bottomNavigationView.isColoredBackground(false);
+ bottomNavigationView.setItemActiveColorWithoutColoredBackground(yourColor);
 ```
 ![](ScreenShots/gifView3.gif)
 
