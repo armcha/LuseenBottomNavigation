@@ -67,7 +67,7 @@ Then set your `OnBottomNavigationItemClickListener`
         });
 ```
 
-Cusomize
+Customize
 --------
 
 ```java
@@ -89,7 +89,8 @@ Please fell free to contact me if there is any problem when using the library.
 
 - **email**: armcha01@gmail.com
 - **facebook**: https://web.facebook.com/chatikyana
- 
+- **website**: http://luseen.com/
+
 License
 --------
 
