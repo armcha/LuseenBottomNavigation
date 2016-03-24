@@ -17,11 +17,6 @@ Download
 
 Gradle:
 ```groovy
-repositories {
-    maven {
-        url 'https://dl.bintray.com/armcha/maven'
-    }
-}
 compile 'com.github.armcha:LuseenBottomNavigation:0.0.1'
 ```
 Maven:
