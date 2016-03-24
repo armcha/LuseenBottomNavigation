@@ -17,8 +17,6 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.luseen.luseenbottomnavigation.R;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,7 +24,7 @@ public class BottomNavigationView extends RelativeLayout {
 
     private OnBottomNavigationItemClickListener onBottomNavigationItemClickListener;
     private Context context;
-    private final int NAVIGATION_HEIGHT = (int) getResources().getDimension(R.dimen.bottom_navigation_height);
+    private final int NAVIGATION_HEIGHT = (int) getResources().getDimension(com.luseen.luseenbottomnavigation.R.dimen.bottom_navigation_height);
     private int SHADOW_HEIGHT;
     private int itemWidth;
     private int itemHeight;
@@ -34,7 +32,7 @@ public class BottomNavigationView extends RelativeLayout {
     private View backgroundColorTemp;
     private boolean withText = true;
     private boolean coloredBackground = true;
-    private int itemActiveColor;
+    private int itemActiveColorWithoutColoredBackground = -1;
     private int itemInactiveColor;
     private FrameLayout container;
     private List<BottomNavigationItem> bottomNavigationItems = new ArrayList<>();
@@ -62,19 +60,20 @@ public class BottomNavigationView extends RelativeLayout {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
         ViewGroup.LayoutParams params = getLayoutParams();
         if (coloredBackground) {
-            itemActiveColor = ContextCompat.getColor(context, R.color.colorActive);
-            itemInactiveColor = ContextCompat.getColor(context, R.color.colorInactive);
-            SHADOW_HEIGHT = (int) getResources().getDimension(R.dimen.bottom_navigation_shadow_height);
+            itemActiveColorWithoutColoredBackground = ContextCompat.getColor(context, com.luseen.luseenbottomnavigation.R.color.colorActive);
+            itemInactiveColor = ContextCompat.getColor(context, com.luseen.luseenbottomnavigation.R.color.colorInactive);
+            SHADOW_HEIGHT = (int) getResources().getDimension(com.luseen.luseenbottomnavigation.R.dimen.bottom_navigation_shadow_height);
         } else {
-            itemActiveColor = ContextCompat.getColor(context, R.color.colorAccent);
-            itemInactiveColor = ContextCompat.getColor(context, R.color.withoutColoredBackground);
-            SHADOW_HEIGHT = (int) getResources().getDimension(R.dimen.bottom_navigation_shadow_height_without_colored_background);
+            if (itemActiveColorWithoutColoredBackground == -1)
+                itemActiveColorWithoutColoredBackground = ContextCompat.getColor(context, com.luseen.luseenbottomnavigation.R.color.itemActiveColorWithoutColoredBackground);
+            itemInactiveColor = ContextCompat.getColor(context, com.luseen.luseenbottomnavigation.R.color.withoutColoredBackground);
+            SHADOW_HEIGHT = (int) getResources().getDimension(com.luseen.luseenbottomnavigation.R.dimen.bottom_navigation_shadow_height_without_colored_background);
         }
         params.width = ViewGroup.LayoutParams.MATCH_PARENT;
         params.height = NAVIGATION_HEIGHT + SHADOW_HEIGHT;
         //setOrientation(LinearLayout.VERTICAL);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            setElevation(getResources().getDimension(R.dimen.bottom_navigation_elevation));
+            setElevation(getResources().getDimension(com.luseen.luseenbottomnavigation.R.dimen.bottom_navigation_elevation));
         }
         setLayoutParams(params);
     }
@@ -82,10 +81,10 @@ public class BottomNavigationView extends RelativeLayout {
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
-        if(bottomNavigationItems.size() == 0){
+        if (bottomNavigationItems.size() == 0) {
             throw new NullPointerException("You need at least one item");
         }
-        int white = ContextCompat.getColor(context, R.color.white);
+        int white = ContextCompat.getColor(context, com.luseen.luseenbottomnavigation.R.color.white);
         backgroundColorTemp = new View(context);
         viewList.clear();
         itemWidth = getWidth() / bottomNavigationItems.size();
@@ -99,7 +98,7 @@ public class BottomNavigationView extends RelativeLayout {
         LayoutParams shadowParams = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, SHADOW_HEIGHT);
         containerParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
         shadowParams.addRule(RelativeLayout.ABOVE, container.getId());
-        shadow.setBackgroundResource(R.drawable.shadow);
+        shadow.setBackgroundResource(com.luseen.luseenbottomnavigation.R.drawable.shadow);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             LayoutParams backgroundLayoutParams = new LayoutParams(
                     ViewGroup.LayoutParams.MATCH_PARENT, NAVIGATION_HEIGHT);
@@ -115,31 +114,31 @@ public class BottomNavigationView extends RelativeLayout {
             final int index = i;
             if (!coloredBackground)
                 bottomNavigationItems.get(i).setColor(white);
-            int textActivePaddingTop = (int) context.getResources().getDimension(R.dimen.bottom_navigation_padding_top_active);
-            int viewInactivePaddingTop = (int) context.getResources().getDimension(R.dimen.bottom_navigation_padding_top_inactive);
-            int viewInactivePaddingTopWithoutText = (int) context.getResources().getDimension(R.dimen.bottom_navigation_padding_top_inactive_without_text);
-            final View view = inflater.inflate(R.layout.bottom_navigation, this, false);
-            ImageView icon = (ImageView) view.findViewById(R.id.bottom_navigation_item_icon);
-            TextView title = (TextView) view.findViewById(R.id.bottom_navigation_item_title);
+            int textActivePaddingTop = (int) context.getResources().getDimension(com.luseen.luseenbottomnavigation.R.dimen.bottom_navigation_padding_top_active);
+            int viewInactivePaddingTop = (int) context.getResources().getDimension(com.luseen.luseenbottomnavigation.R.dimen.bottom_navigation_padding_top_inactive);
+            int viewInactivePaddingTopWithoutText = (int) context.getResources().getDimension(com.luseen.luseenbottomnavigation.R.dimen.bottom_navigation_padding_top_inactive_without_text);
+            final View view = inflater.inflate(com.luseen.luseenbottomnavigation.R.layout.bottom_navigation, this, false);
+            ImageView icon = (ImageView) view.findViewById(com.luseen.luseenbottomnavigation.R.id.bottom_navigation_item_icon);
+            TextView title = (TextView) view.findViewById(com.luseen.luseenbottomnavigation.R.id.bottom_navigation_item_title);
             title.setTextColor(itemInactiveColor);
             viewList.add(view);
             if (i == currentItem) {
                 container.setBackgroundColor(bottomNavigationItems.get(index).getColor());
                 title.setTextColor(currentItem == i ?
-                        itemActiveColor :
+                        itemActiveColorWithoutColoredBackground :
                         itemInactiveColor);
             }
             view.setPadding(view.getPaddingLeft(), i == 0 ? textActivePaddingTop : withText ? viewInactivePaddingTop : viewInactivePaddingTopWithoutText, view.getPaddingRight(),
                     view.getPaddingBottom());
             icon.setImageResource(bottomNavigationItems.get(i).getImageResource());
-            icon.setColorFilter(i == 0 ? itemActiveColor : itemInactiveColor);
+            icon.setColorFilter(i == 0 ? itemActiveColorWithoutColoredBackground : itemInactiveColor);
             if (i == 0) {
                 icon.setScaleX((float) 1.1);
                 icon.setScaleY((float) 1.1);
             }
             title.setTextSize(TypedValue.COMPLEX_UNIT_PX, currentItem == i ?
-                    context.getResources().getDimension(R.dimen.bottom_navigation_text_size_active) :
-                    withText ? context.getResources().getDimension(R.dimen.bottom_navigation_text_size_inactive) : 0);
+                    context.getResources().getDimension(com.luseen.luseenbottomnavigation.R.dimen.bottom_navigation_text_size_active) :
+                    withText ? context.getResources().getDimension(com.luseen.luseenbottomnavigation.R.dimen.bottom_navigation_text_size_inactive) : 0);
             title.setText(bottomNavigationItems.get(i).getTitle());
             LayoutParams itemParams = new LayoutParams(itemWidth, itemHeight);
             items.addView(view, itemParams);
@@ -161,6 +160,10 @@ public class BottomNavigationView extends RelativeLayout {
         this.withText = withText;
     }
 
+    public void setItemActiveColorWithoutColoredBackground(int itemActiveColorWithoutColoredBackground) {
+        this.itemActiveColorWithoutColoredBackground = itemActiveColorWithoutColoredBackground;
+    }
+
     public void isColoredBackground(boolean coloredBackground) {
         this.coloredBackground = coloredBackground;
     }
@@ -170,19 +173,19 @@ public class BottomNavigationView extends RelativeLayout {
             return;
         }
 
-        int viewActivePaddingTop = (int) context.getResources().getDimension(R.dimen.bottom_navigation_padding_top_active);
-        int viewInactivePaddingTop = (int) context.getResources().getDimension(R.dimen.bottom_navigation_padding_top_inactive);
-        int viewInactivePaddingTopWithoutText = (int) context.getResources().getDimension(R.dimen.bottom_navigation_padding_top_inactive_without_text);
-        float textActiveSize = context.getResources().getDimension(R.dimen.bottom_navigation_text_size_active);
-        float textInactiveSize = context.getResources().getDimension(R.dimen.bottom_navigation_text_size_inactive);
+        int viewActivePaddingTop = (int) context.getResources().getDimension(com.luseen.luseenbottomnavigation.R.dimen.bottom_navigation_padding_top_active);
+        int viewInactivePaddingTop = (int) context.getResources().getDimension(com.luseen.luseenbottomnavigation.R.dimen.bottom_navigation_padding_top_inactive);
+        int viewInactivePaddingTopWithoutText = (int) context.getResources().getDimension(com.luseen.luseenbottomnavigation.R.dimen.bottom_navigation_padding_top_inactive_without_text);
+        float textActiveSize = context.getResources().getDimension(com.luseen.luseenbottomnavigation.R.dimen.bottom_navigation_text_size_active);
+        float textInactiveSize = context.getResources().getDimension(com.luseen.luseenbottomnavigation.R.dimen.bottom_navigation_text_size_inactive);
         for (int i = 0; i < viewList.size(); i++) {
             if (i == itemIndex) {
-                View view = viewList.get(itemIndex).findViewById(R.id.bottom_navigation_container);
-                final TextView title = (TextView) view.findViewById(R.id.bottom_navigation_item_title);
-                final ImageView icon = (ImageView) view.findViewById(R.id.bottom_navigation_item_icon);
-                BottomNavigationUtils.changeTextColor(title, itemInactiveColor, itemActiveColor);
+                View view = viewList.get(itemIndex).findViewById(com.luseen.luseenbottomnavigation.R.id.bottom_navigation_container);
+                final TextView title = (TextView) view.findViewById(com.luseen.luseenbottomnavigation.R.id.bottom_navigation_item_title);
+                final ImageView icon = (ImageView) view.findViewById(com.luseen.luseenbottomnavigation.R.id.bottom_navigation_item_icon);
+                BottomNavigationUtils.changeTextColor(title, itemInactiveColor, itemActiveColorWithoutColoredBackground);
                 BottomNavigationUtils.changeTextSize(title, withText ? textInactiveSize : 0, textActiveSize);
-                BottomNavigationUtils.imageColorChange(icon, itemInactiveColor, itemActiveColor);
+                BottomNavigationUtils.imageColorChange(icon, itemInactiveColor, itemActiveColorWithoutColoredBackground);
                 BottomNavigationUtils.changeTopPadding(view, withText ? viewInactivePaddingTop : viewInactivePaddingTopWithoutText, viewActivePaddingTop);
                 icon.animate()
                         .setDuration(150)
@@ -208,12 +211,12 @@ public class BottomNavigationView extends RelativeLayout {
                             (container, bottomNavigationItems.get(currentItem).getColor(), bottomNavigationItems.get(itemIndex).getColor());
                 }
             } else if (i == currentItem) {
-                View view = viewList.get(i).findViewById(R.id.bottom_navigation_container);
-                final TextView title = (TextView) view.findViewById(R.id.bottom_navigation_item_title);
-                final ImageView icon = (ImageView) view.findViewById(R.id.bottom_navigation_item_icon);
-                BottomNavigationUtils.imageColorChange(icon, itemActiveColor, itemInactiveColor);
+                View view = viewList.get(i).findViewById(com.luseen.luseenbottomnavigation.R.id.bottom_navigation_container);
+                final TextView title = (TextView) view.findViewById(com.luseen.luseenbottomnavigation.R.id.bottom_navigation_item_title);
+                final ImageView icon = (ImageView) view.findViewById(com.luseen.luseenbottomnavigation.R.id.bottom_navigation_item_icon);
+                BottomNavigationUtils.imageColorChange(icon, itemActiveColorWithoutColoredBackground, itemInactiveColor);
                 BottomNavigationUtils.changeTopPadding(view, viewActivePaddingTop, withText ? viewInactivePaddingTop : viewInactivePaddingTopWithoutText);
-                BottomNavigationUtils.changeTextColor(title, itemActiveColor, itemInactiveColor);
+                BottomNavigationUtils.changeTextColor(title, itemActiveColorWithoutColoredBackground, itemInactiveColor);
                 BottomNavigationUtils.changeTextSize(title, textActiveSize, withText ? textInactiveSize : 0);
                 icon.animate()
                         .setDuration(150)

@@ -1,7 +1,7 @@
 package com.luseen.myapplication;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
 
 import com.luseen.luseenbottomnavigation.BottomNavigation.BottomNavigationItem;
@@ -19,8 +19,9 @@ public class MainActivity extends AppCompatActivity {
         t = (TextView) findViewById(R.id.textView);
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavigation);
         if (bottomNavigationView != null){
-            bottomNavigationView.isWithText(false);
+            bottomNavigationView.isWithText(true);
             bottomNavigationView.isColoredBackground(true);
+            bottomNavigationView.setItemActiveColorWithoutColoredBackground(getResources().getColor(R.color.fourthColor));
         }
         BottomNavigationItem bottomNavigationItem = new BottomNavigationItem
                 ("Record", getResources().getColor(R.color.firstColor), R.drawable.ic_mic_black_24dp);
