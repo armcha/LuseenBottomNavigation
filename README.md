@@ -26,7 +26,7 @@ Maven:
 <dependency>
   <groupId>com.github.armcha</groupId>
   <artifactId>LuseenBottomNavigation</artifactId>
-  <version>0.0.1</version>
+  <version>1.2.0</version>
   <type>pom</type>
 </dependency>
 ```
