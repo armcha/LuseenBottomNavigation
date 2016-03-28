@@ -26,8 +26,6 @@ public class BottomNavigationView extends RelativeLayout {
     private Context context;
     private final int NAVIGATION_HEIGHT = (int) getResources().getDimension(com.luseen.luseenbottomnavigation.R.dimen.bottom_navigation_height);
     private int SHADOW_HEIGHT;
-    private int itemWidth;
-    private int itemHeight;
     private int currentItem = 0;
     private View backgroundColorTemp;
     private boolean withText = true;
@@ -87,8 +85,8 @@ public class BottomNavigationView extends RelativeLayout {
         int white = ContextCompat.getColor(context, com.luseen.luseenbottomnavigation.R.color.white);
         backgroundColorTemp = new View(context);
         viewList.clear();
-        itemWidth = getWidth() / bottomNavigationItems.size();
-        itemHeight = LayoutParams.MATCH_PARENT;
+        int itemWidth = getWidth() / bottomNavigationItems.size();
+        int itemHeight = LayoutParams.MATCH_PARENT;
         container = new FrameLayout(context);
         View shadow = new View(context);
         LinearLayout items = new LinearLayout(context);
@@ -230,6 +228,42 @@ public class BottomNavigationView extends RelativeLayout {
             onBottomNavigationItemClickListener.onNavigationItemClick(itemIndex);
         currentItem = itemIndex;
     }
+
+    /**
+     * Creates a connection between a this navigation view and a ViewPager
+     * @param pager pager to connect to
+     * @param colorResources color resources for every item in the ViewPager adapter
+     * @param imageResources images resources for every item in the ViewPager adapter
+     */
+
+    public void setViewPager(ViewPager pager , int[] colorResources  , int[] imageResources){
+        if (pager.getAdapter().getCount() != colorResources.length || pager.getAdapter().getCount() != imageResources.length)
+            throw new IllegalArgumentException("colorResources and imageResources must be equal to the ViewPager items : " + pager.getAdapter().getCount());
+
+        for (int i = 0; i < pager.getAdapter().getCount(); i++)
+            addTab(new BottomNavigationItem(pager.getAdapter().getPageTitle(i).toString() , colorResources[i] , imageResources[i]));
+
+        pager.addOnPageChangeListener(new internalViewPagerListener());
+        invalidate();
+    }
+
+    private class internalViewPagerListener implements ViewPager.OnPageChangeListener {
+
+        @Override
+        public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+        }
+
+        @Override
+        public void onPageSelected(int position) {
+            onBottomNavigationItemClick(position);
+        }
+
+        @Override
+        public void onPageScrollStateChanged(int state) {
+
+        }
+    }
+
 
     //setup interface for item onClick
 

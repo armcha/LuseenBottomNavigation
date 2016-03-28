@@ -2,9 +2,9 @@ package com.luseen.luseenbottomnavigation.BottomNavigation;
 
 public class BottomNavigationItem {
 
-    String title;
-    int color;
-    int imageResource;
+    private String title;
+    private int color;
+    private int imageResource;
 
     public BottomNavigationItem(String title, int color, int imageResource) {
         this.title = title;
