@@ -19,7 +19,7 @@ Download
 
 Gradle:
 ```groovy
-compile 'com.github.armcha:LuseenBottomNavigation:1.1'
+compile 'com.github.armcha:LuseenBottomNavigation:1.2.0'
 ```
 Maven:
 ```xml
