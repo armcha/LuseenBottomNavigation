@@ -68,7 +68,13 @@ Then set your `OnBottomNavigationItemClickListener`
             }
         });
 ```
+If you are using a `ViewPager` , you can connect to the `BottomNavigationView`:
+  
+  ```java
+  bottomNavigationView.setViewPager(yourPager , colorResources , imageResources);
+  ```
 
+  
 Customize
 --------
 
