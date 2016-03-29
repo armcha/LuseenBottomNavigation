@@ -19,14 +19,14 @@ Download
 
 Gradle:
 ```groovy
-compile 'com.github.armcha:LuseenBottomNavigation:1.2.0'
+compile 'com.github.armcha:LuseenBottomNavigation:1.3.0'
 ```
 Maven:
 ```xml
 <dependency>
   <groupId>com.github.armcha</groupId>
   <artifactId>LuseenBottomNavigation</artifactId>
-  <version>1.2.0</version>
+  <version>1.3.0</version>
   <type>pom</type>
 </dependency>
 ```
@@ -88,6 +88,10 @@ Customize
 ```
 ![](ScreenShots/gifView3.gif)
 
+You can just disable BottomNavigationView shadow by calling 
+```java
+ bottomNavigationView.disableShadow();
+```
  
 ## Contact 
 
