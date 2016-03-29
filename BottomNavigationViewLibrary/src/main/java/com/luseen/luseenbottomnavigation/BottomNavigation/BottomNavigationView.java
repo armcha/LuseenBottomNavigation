@@ -5,6 +5,7 @@ import android.animation.AnimatorListenerAdapter;
 import android.content.Context;
 import android.os.Build;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
@@ -35,6 +36,7 @@ public class BottomNavigationView extends RelativeLayout {
     private FrameLayout container;
     private List<BottomNavigationItem> bottomNavigationItems = new ArrayList<>();
     private List<View> viewList = new ArrayList<>();
+    private ViewPager mViewPager ;
 
 
     public BottomNavigationView(Context context) {
@@ -224,33 +226,41 @@ public class BottomNavigationView extends RelativeLayout {
             }
         }
 
+        if (mViewPager != null)
+            mViewPager.setCurrentItem(itemIndex);
+
         if (onBottomNavigationItemClickListener != null)
             onBottomNavigationItemClickListener.onNavigationItemClick(itemIndex);
         currentItem = itemIndex;
     }
 
     /**
-     * Creates a connection between a this navigation view and a ViewPager
+     * Creates a connection between this navigation view and a ViewPager
      * @param pager pager to connect to
      * @param colorResources color resources for every item in the ViewPager adapter
      * @param imageResources images resources for every item in the ViewPager adapter
      */
 
     public void setViewPager(ViewPager pager , int[] colorResources  , int[] imageResources){
+        this.mViewPager = pager;
         if (pager.getAdapter().getCount() != colorResources.length || pager.getAdapter().getCount() != imageResources.length)
             throw new IllegalArgumentException("colorResources and imageResources must be equal to the ViewPager items : " + pager.getAdapter().getCount());
 
         for (int i = 0; i < pager.getAdapter().getCount(); i++)
             addTab(new BottomNavigationItem(pager.getAdapter().getPageTitle(i).toString() , colorResources[i] , imageResources[i]));
 
-        pager.addOnPageChangeListener(new internalViewPagerListener());
+        mViewPager.addOnPageChangeListener(new internalViewPagerListener());
         invalidate();
     }
 
     private class internalViewPagerListener implements ViewPager.OnPageChangeListener {
 
+        private int mScrollState ;
+
         @Override
         public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            if (mScrollState == ViewPager.SCROLL_STATE_DRAGGING)
+                onBottomNavigationItemClick(position);
         }
 
         @Override
@@ -260,7 +270,10 @@ public class BottomNavigationView extends RelativeLayout {
 
         @Override
         public void onPageScrollStateChanged(int state) {
-
+            if (state == ViewPager.SCROLL_STATE_DRAGGING)
+                mScrollState = ViewPager.SCROLL_STATE_DRAGGING;
+            else if (state == ViewPager.SCROLL_STATE_IDLE)
+                mScrollState = ViewPager.SCROLL_STATE_IDLE;
         }
     }
 
