@@ -21,6 +21,7 @@ public class MainActivity extends AppCompatActivity {
         if (bottomNavigationView != null){
             bottomNavigationView.isWithText(true);
             bottomNavigationView.isColoredBackground(true);
+            //bottomNavigationView.disableShadow();
             bottomNavigationView.setItemActiveColorWithoutColoredBackground(getResources().getColor(R.color.fourthColor));
         }
         BottomNavigationItem bottomNavigationItem = new BottomNavigationItem

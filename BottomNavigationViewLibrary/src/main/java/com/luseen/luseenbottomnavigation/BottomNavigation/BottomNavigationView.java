@@ -34,6 +34,7 @@ public class BottomNavigationView extends RelativeLayout {
     private int itemActiveColorWithoutColoredBackground = -1;
     private int itemInactiveColor;
     private FrameLayout container;
+    private boolean disableShadow = false;
     private List<BottomNavigationItem> bottomNavigationItems = new ArrayList<>();
     private List<View> viewList = new ArrayList<>();
     private ViewPager mViewPager ;
@@ -70,7 +71,7 @@ public class BottomNavigationView extends RelativeLayout {
             SHADOW_HEIGHT = (int) getResources().getDimension(com.luseen.luseenbottomnavigation.R.dimen.bottom_navigation_shadow_height_without_colored_background);
         }
         params.width = ViewGroup.LayoutParams.MATCH_PARENT;
-        params.height = NAVIGATION_HEIGHT + SHADOW_HEIGHT;
+        params.height = disableShadow ? NAVIGATION_HEIGHT : NAVIGATION_HEIGHT + SHADOW_HEIGHT;
         //setOrientation(LinearLayout.VERTICAL);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             setElevation(getResources().getDimension(com.luseen.luseenbottomnavigation.R.dimen.bottom_navigation_elevation));
@@ -152,6 +153,10 @@ public class BottomNavigationView extends RelativeLayout {
 
     }
 
+    /**
+     * Add item for BottomNavigation
+     * @param item  item to add
+     */
     public void addTab(BottomNavigationItem item) {
         bottomNavigationItems.add(item);
     }
@@ -164,8 +169,19 @@ public class BottomNavigationView extends RelativeLayout {
         this.itemActiveColorWithoutColoredBackground = itemActiveColorWithoutColoredBackground;
     }
 
+    /**
+     * With this BottomNavigation background will be white
+     * @param coloredBackground disable or enable background color
+     */
     public void isColoredBackground(boolean coloredBackground) {
         this.coloredBackground = coloredBackground;
+    }
+
+    /**
+     * Disable shadow of BottomNavigationView
+     */
+    public void disableShadow() {
+        disableShadow = true;
     }
 
     private void onBottomNavigationItemClick(final int itemIndex) {
@@ -278,7 +294,9 @@ public class BottomNavigationView extends RelativeLayout {
     }
 
 
-    //setup interface for item onClick
+    /**
+     * Setup interface for item onClick
+     */
 
     public interface OnBottomNavigationItemClickListener {
         void onNavigationItemClick(int index);
