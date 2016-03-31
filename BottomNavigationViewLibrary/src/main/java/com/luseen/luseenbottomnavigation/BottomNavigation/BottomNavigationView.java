@@ -37,7 +37,8 @@ public class BottomNavigationView extends RelativeLayout {
     private boolean disableShadow = false;
     private List<BottomNavigationItem> bottomNavigationItems = new ArrayList<>();
     private List<View> viewList = new ArrayList<>();
-    private ViewPager mViewPager ;
+    private ViewPager mViewPager;
+    private boolean viewPagerSlide = true;
 
 
     public BottomNavigationView(Context context) {
@@ -183,6 +184,13 @@ public class BottomNavigationView extends RelativeLayout {
     public void disableShadow() {
         disableShadow = true;
     }
+    
+    /**
+     * Disable slide animation when using ViewPager
+     */
+    public void disableViewPagerSlide() {
+        viewPagerSlide = false;
+    }
 
     private void onBottomNavigationItemClick(final int itemIndex) {
         if (currentItem == itemIndex) {
@@ -243,7 +251,7 @@ public class BottomNavigationView extends RelativeLayout {
         }
 
         if (mViewPager != null)
-            mViewPager.setCurrentItem(itemIndex);
+            mViewPager.setCurrentItem(itemIndex, viewPagerSlide);
 
         if (onBottomNavigationItemClickListener != null)
             onBottomNavigationItemClickListener.onNavigationItemClick(itemIndex);
