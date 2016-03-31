@@ -12,6 +12,7 @@ By [Luseen][2] Technologies
 
 
 ![](ScreenShots/gifView2.gif)
+![](ScreenShots/screen4.png)
 
 
 Download
@@ -73,10 +74,18 @@ If you are using a `ViewPager` , you can connect to the `BottomNavigationView`:
   ```java
   bottomNavigationView.setViewPager(yourPager , colorResources , imageResources);
   ```
-
-  
+You can disable slide animation when using viewPager
+  ```java
+  bottomNavigationView.disableViewPagerSlide();
+  ```
 Customize
 --------
+
+You can activate tablet mode
+```java
+ bottomNavigationView.activateTabletMode();
+```
+![](ScreenShots/gifView4.gif)
 
 ```java
  bottomNavigationView.isWithText(true);

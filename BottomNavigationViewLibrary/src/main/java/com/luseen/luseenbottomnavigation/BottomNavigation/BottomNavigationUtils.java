@@ -2,6 +2,7 @@ package com.luseen.luseenbottomnavigation.BottomNavigation;
 
 import android.animation.ArgbEvaluator;
 import android.animation.ValueAnimator;
+import android.content.Context;
 import android.util.TypedValue;
 import android.view.View;
 import android.widget.ImageView;
@@ -49,6 +50,22 @@ public class BottomNavigationUtils {
         animator.start();
     }
 
+    public static void changeTopRight(final View view, int fromPadding, int toPadding) {
+        ValueAnimator animator = ValueAnimator.ofFloat(fromPadding, toPadding);
+        animator.setDuration(150);
+        animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                float animatedValue = (float) valueAnimator.getAnimatedValue();
+                view.setPadding(view.getPaddingLeft(),
+                        view.getPaddingTop(),
+                        (int) animatedValue,
+                        view.getPaddingBottom());
+            }
+        });
+        animator.start();
+    }
+
     public static void changeTextSize(final TextView textView, float from, float to) {
         ValueAnimator textSizeChangeAnimator = ValueAnimator.ofFloat(from, to);
         textSizeChangeAnimator.setDuration(150);
@@ -71,5 +88,14 @@ public class BottomNavigationUtils {
             }
         });
         changeTextColorAnimation.start();
+    }
+
+    public static int getActionbarSize(Context context) {
+        int actionbarSize = -1;
+        TypedValue typedValue = new TypedValue();
+        if (context.getTheme().resolveAttribute(android.R.attr.actionBarSize, typedValue, true)) {
+            actionbarSize = TypedValue.complexToDimensionPixelSize(typedValue.data, context.getResources().getDisplayMetrics());
+        }
+        return actionbarSize;
     }
 }

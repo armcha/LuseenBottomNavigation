@@ -1,11 +1,13 @@
 package com.luseen.myapplication;
 
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
 
 import com.luseen.luseenbottomnavigation.BottomNavigation.BottomNavigationItem;
 import com.luseen.luseenbottomnavigation.BottomNavigation.BottomNavigationView;
+import com.luseen.luseenbottomnavigation.BottomNavigation.OnBottomNavigationItemClickListener;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -20,18 +22,19 @@ public class MainActivity extends AppCompatActivity {
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavigation);
         if (bottomNavigationView != null){
             bottomNavigationView.isWithText(true);
-            bottomNavigationView.isColoredBackground(true);
-            //bottomNavigationView.disableShadow();
+            bottomNavigationView.activateTabletMode();
+            bottomNavigationView.disableViewPagerSlide();
+            bottomNavigationView.isColoredBackground(false);
             bottomNavigationView.setItemActiveColorWithoutColoredBackground(getResources().getColor(R.color.fourthColor));
         }
         BottomNavigationItem bottomNavigationItem = new BottomNavigationItem
-                ("Record", getResources().getColor(R.color.firstColor), R.drawable.ic_mic_black_24dp);
+                ("Record", ContextCompat.getColor(this,R.color.firstColor), R.drawable.ic_mic_black_24dp);
         BottomNavigationItem bottomNavigationItem1 = new BottomNavigationItem
-                ("Like", getResources().getColor(R.color.secondColor), R.drawable.ic_favorite_black_24dp);
+                ("Like",  ContextCompat.getColor(this,R.color.secondColor), R.drawable.ic_favorite_black_24dp);
         BottomNavigationItem bottomNavigationItem2 = new BottomNavigationItem
-                ("Books", getResources().getColor(R.color.thirdColor), R.drawable.ic_book_black_24dp);
+                ("Books",  ContextCompat.getColor(this,R.color.thirdColor), R.drawable.ic_book_black_24dp);
         BottomNavigationItem bottomNavigationItem3 = new BottomNavigationItem
-                ("Github", getResources().getColor(R.color.fourthColor),R.drawable.github_circle);
+                ("Github",  ContextCompat.getColor(this,R.color.fourthColor),R.drawable.github_circle);
 
 
         bottomNavigationView.addTab(bottomNavigationItem);
@@ -39,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
         bottomNavigationView.addTab(bottomNavigationItem2);
         bottomNavigationView.addTab(bottomNavigationItem3);
 
-        bottomNavigationView.setOnBottomNavigationItemClickListener(new BottomNavigationView.OnBottomNavigationItemClickListener() {
+        bottomNavigationView.setOnBottomNavigationItemClickListener(new OnBottomNavigationItemClickListener() {
             @Override
             public void onNavigationItemClick(int index) {
                 switch (index) {
