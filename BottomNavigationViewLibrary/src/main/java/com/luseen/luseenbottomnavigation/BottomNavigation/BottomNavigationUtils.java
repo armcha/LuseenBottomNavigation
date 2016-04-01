@@ -3,6 +3,8 @@ package com.luseen.luseenbottomnavigation.BottomNavigation;
 import android.animation.ArgbEvaluator;
 import android.animation.ValueAnimator;
 import android.content.Context;
+import android.content.res.Resources;
+import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.view.View;
 import android.widget.ImageView;
@@ -50,7 +52,7 @@ public class BottomNavigationUtils {
         animator.start();
     }
 
-    public static void changeTopRight(final View view, int fromPadding, int toPadding) {
+    public static void changeRightPadding(final View view, int fromPadding, int toPadding) {
         ValueAnimator animator = ValueAnimator.ofFloat(fromPadding, toPadding);
         animator.setDuration(150);
         animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
@@ -97,5 +99,11 @@ public class BottomNavigationUtils {
             actionbarSize = TypedValue.complexToDimensionPixelSize(typedValue.data, context.getResources().getDisplayMetrics());
         }
         return actionbarSize;
+    }
+
+    public static int pxToDp(int px,Context context) {
+        DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
+        int dp = Math.round(px / (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT));
+        return dp;
     }
 }

@@ -25,12 +25,12 @@ public class MainActivity extends AppCompatActivity {
         b = (Button) findViewById(R.id.button);
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavigation);
         if (bottomNavigationView != null) {
-            bottomNavigationView.selectTab(1);
             bottomNavigationView.isWithText(true);
-            bottomNavigationView.activateTabletMode();
+            bottomNavigationView.selectTab(2);
+            // bottomNavigationView.activateTabletMode();
             bottomNavigationView.disableViewPagerSlide();
             bottomNavigationView.isColoredBackground(true);
-            bottomNavigationView.setItemActiveColorWithoutColoredBackground(getResources().getColor(R.color.fourthColor));
+            bottomNavigationView.setItemActiveColorWithoutColoredBackground(ContextCompat.getColor(this, R.color.firstColor));
         }
         final BottomNavigationItem bottomNavigationItem = new BottomNavigationItem
                 ("Record", ContextCompat.getColor(this, R.color.firstColor), R.drawable.ic_mic_black_24dp);
@@ -69,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
         b.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                bottomNavigationView.selectTab(3);
+                bottomNavigationView.selectTab(2);
             }
         });
     }

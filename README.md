@@ -4,7 +4,7 @@
 
 BottomNavigationView
 
-Created according by Google [guideLine][1]
+Designed according Google [guideLine][1]
 [1]: https://www.google.com/design/spec/components/bottom-navigation.html#bottom-navigation-usage
 [2]: http://luseen.com/
 By [Luseen][2] Technologies 
@@ -96,6 +96,17 @@ You can activate tablet mode
  bottomNavigationView.setItemActiveColorWithoutColoredBackground(yourColor);
 ```
 ![](ScreenShots/gifView3.gif)
+
+Change text active or inactive size
+```java
+  bottomNavigationView.setTextActiveSize(float yoursize);
+  bottomNavigationView.setTextInactiveSize(float yoursize);
+```
+
+Change tab programmatically
+```java
+bottomNavigationView.selectTab(int position);
+```
 
 You can just disable BottomNavigationView shadow by calling 
 ```java

@@ -29,10 +29,14 @@ public class BottomNavigationView extends RelativeLayout {
     private Context context;
     private final int NAVIGATION_HEIGHT = (int) getResources().getDimension(com.luseen.luseenbottomnavigation.R.dimen.bottom_navigation_height);
     private final int NAVIGATION_LINE_WIDTH = (int) getResources().getDimension(R.dimen.bottom_navigation_line_width);
-    private int NAVIGATION_WIDTH;
-    private int SHADOW_HEIGHT;
-    private int currentItem = 0;
+    private float textActiveSize = getResources().getDimension(com.luseen.luseenbottomnavigation.R.dimen.bottom_navigation_text_size_active);
+    private float textInactiveSize = getResources().getDimension(com.luseen.luseenbottomnavigation.R.dimen.bottom_navigation_text_size_inactive);
+    private List<BottomNavigationItem> bottomNavigationItems = new ArrayList<>();
+    private List<View> viewList = new ArrayList<>();
     private int itemActiveColorWithoutColoredBackground = -1;
+    private int currentItem = 0;
+    private int navigationWidth;
+    private int shadowHeight;
     private int itemInactiveColor;
     private int itemWidth;
     private int itemHeight;
@@ -44,15 +48,12 @@ public class BottomNavigationView extends RelativeLayout {
     private FrameLayout container;
     private View backgroundColorTemp;
     private ViewPager mViewPager;
-    private List<BottomNavigationItem> bottomNavigationItems = new ArrayList<>();
-    private List<View> viewList = new ArrayList<>();
 
 
     public BottomNavigationView(Context context) {
         super(context);
         this.context = context;
     }
-
 
     public BottomNavigationView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
@@ -67,24 +68,24 @@ public class BottomNavigationView extends RelativeLayout {
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-        NAVIGATION_WIDTH = BottomNavigationUtils.getActionbarSize(context);
+        navigationWidth = BottomNavigationUtils.getActionbarSize(context);
         ViewGroup.LayoutParams params = getLayoutParams();
         if (coloredBackground) {
             itemActiveColorWithoutColoredBackground = ContextCompat.getColor(context, com.luseen.luseenbottomnavigation.R.color.colorActive);
             itemInactiveColor = ContextCompat.getColor(context, com.luseen.luseenbottomnavigation.R.color.colorInactive);
-            SHADOW_HEIGHT = (int) getResources().getDimension(com.luseen.luseenbottomnavigation.R.dimen.bottom_navigation_shadow_height);
+            shadowHeight = (int) getResources().getDimension(com.luseen.luseenbottomnavigation.R.dimen.bottom_navigation_shadow_height);
         } else {
             if (itemActiveColorWithoutColoredBackground == -1)
                 itemActiveColorWithoutColoredBackground = ContextCompat.getColor(context, com.luseen.luseenbottomnavigation.R.color.itemActiveColorWithoutColoredBackground);
             itemInactiveColor = ContextCompat.getColor(context, com.luseen.luseenbottomnavigation.R.color.withoutColoredBackground);
-            SHADOW_HEIGHT = (int) getResources().getDimension(com.luseen.luseenbottomnavigation.R.dimen.bottom_navigation_shadow_height_without_colored_background);
+            shadowHeight = (int) getResources().getDimension(com.luseen.luseenbottomnavigation.R.dimen.bottom_navigation_shadow_height_without_colored_background);
         }
         if (isTablet) {
-            params.width = NAVIGATION_WIDTH + NAVIGATION_LINE_WIDTH;
+            params.width = navigationWidth + NAVIGATION_LINE_WIDTH;
             params.height = ViewGroup.LayoutParams.MATCH_PARENT;
         } else {
             params.width = ViewGroup.LayoutParams.MATCH_PARENT;
-            params.height = disableShadow ? NAVIGATION_HEIGHT : NAVIGATION_HEIGHT + SHADOW_HEIGHT;
+            params.height = disableShadow ? NAVIGATION_HEIGHT : NAVIGATION_HEIGHT + shadowHeight;
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 setElevation(getResources().getDimension(com.luseen.luseenbottomnavigation.R.dimen.bottom_navigation_elevation));
             }
@@ -95,6 +96,10 @@ public class BottomNavigationView extends RelativeLayout {
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
+        if (currentItem < 0 || currentItem > (bottomNavigationItems.size() - 1)) {
+            throw new IndexOutOfBoundsException(currentItem < 0 ? "Position must be 0 or greater than 0, current is " + currentItem
+                    : "Position must be less or equivalent than items size, items size is " + (bottomNavigationItems.size() - 1) + " current is " + currentItem);
+        }
         if (bottomNavigationItems.size() == 0) {
             throw new NullPointerException("You need at least one item");
         }
@@ -104,7 +109,7 @@ public class BottomNavigationView extends RelativeLayout {
         viewList.clear();
         if (isTablet) {
             itemWidth = LayoutParams.MATCH_PARENT;
-            itemHeight = NAVIGATION_WIDTH;
+            itemHeight = navigationWidth;
         } else {
             itemWidth = getWidth() / bottomNavigationItems.size();
             itemHeight = LayoutParams.MATCH_PARENT;
@@ -114,18 +119,18 @@ public class BottomNavigationView extends RelativeLayout {
         View line = new View(context);
         LinearLayout items = new LinearLayout(context);
         items.setOrientation(isTablet ? LinearLayout.VERTICAL : LinearLayout.HORIZONTAL);
-        LayoutParams shadowParams = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, SHADOW_HEIGHT);
+        LayoutParams shadowParams = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, shadowHeight);
         if (isTablet) {
             line.setBackgroundColor(ContextCompat.getColor(context, R.color.colorInactive));
-            containerParams = new LayoutParams(NAVIGATION_WIDTH, ViewGroup.LayoutParams.MATCH_PARENT);
+            containerParams = new LayoutParams(navigationWidth, ViewGroup.LayoutParams.MATCH_PARENT);
             lineParams = new LayoutParams(NAVIGATION_LINE_WIDTH, ViewGroup.LayoutParams.MATCH_PARENT);
             lineParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
-            params = new LayoutParams(NAVIGATION_WIDTH, ViewGroup.LayoutParams.MATCH_PARENT);
+            params = new LayoutParams(navigationWidth, ViewGroup.LayoutParams.MATCH_PARENT);
             items.setPadding(0, itemHeight / 2, 0, 0);
             addView(line, lineParams);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 LayoutParams backgroundLayoutParams = new LayoutParams(
-                        NAVIGATION_WIDTH, ViewGroup.LayoutParams.MATCH_PARENT);
+                        navigationWidth, ViewGroup.LayoutParams.MATCH_PARENT);
                 backgroundLayoutParams.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
                 container.addView(backgroundColorTemp, backgroundLayoutParams);
             }
@@ -178,8 +183,8 @@ public class BottomNavigationView extends RelativeLayout {
                             view.getPaddingBottom());
             }
             title.setTextSize(TypedValue.COMPLEX_UNIT_PX, i == currentItem ?
-                    context.getResources().getDimension(com.luseen.luseenbottomnavigation.R.dimen.bottom_navigation_text_size_active) :
-                    withText ? context.getResources().getDimension(com.luseen.luseenbottomnavigation.R.dimen.bottom_navigation_text_size_inactive) : 0);
+                    textActiveSize :
+                    withText ? textInactiveSize : 0);
             title.setText(bottomNavigationItems.get(i).getTitle());
             LayoutParams itemParams = new LayoutParams(itemWidth, itemHeight);
             items.addView(view, itemParams);
@@ -193,62 +198,6 @@ public class BottomNavigationView extends RelativeLayout {
 
     }
 
-    /**
-     * Add item for BottomNavigation
-     *
-     * @param item item to add
-     */
-    public void addTab(BottomNavigationItem item) {
-        bottomNavigationItems.add(item);
-    }
-
-    /**
-     * Activate BottomNavigation tablet mode
-     */
-    public void activateTabletMode() {
-        isTablet = true;
-    }
-
-    public void isWithText(boolean withText) {
-        this.withText = withText;
-    }
-
-    public void setItemActiveColorWithoutColoredBackground(int itemActiveColorWithoutColoredBackground) {
-        this.itemActiveColorWithoutColoredBackground = itemActiveColorWithoutColoredBackground;
-    }
-
-    /**
-     * With this BottomNavigation background will be white
-     *
-     * @param coloredBackground disable or enable background color
-     */
-    public void isColoredBackground(boolean coloredBackground) {
-        this.coloredBackground = coloredBackground;
-    }
-
-    /**
-     * Manually select tab
-     * @param position selected tab position
-     */
-    public void selectTab(int position){
-        onBottomNavigationItemClick(position);
-        currentItem = position;
-    }
-
-    /**
-     * Disable shadow of BottomNavigationView
-     */
-    public void disableShadow() {
-        disableShadow = true;
-    }
-
-    /**
-     * Disable slide animation when using ViewPager
-     */
-    public void disableViewPagerSlide() {
-        viewPagerSlide = false;
-    }
-
     private void onBottomNavigationItemClick(final int itemIndex) {
 
         if (currentItem == itemIndex) {
@@ -258,8 +207,6 @@ public class BottomNavigationView extends RelativeLayout {
         int viewActivePaddingTop = (int) context.getResources().getDimension(com.luseen.luseenbottomnavigation.R.dimen.bottom_navigation_padding_top_active);
         int viewInactivePaddingTop = (int) context.getResources().getDimension(com.luseen.luseenbottomnavigation.R.dimen.bottom_navigation_padding_top_inactive);
         int viewInactivePaddingTopWithoutText = (int) context.getResources().getDimension(com.luseen.luseenbottomnavigation.R.dimen.bottom_navigation_padding_top_inactive_without_text);
-        float textActiveSize = context.getResources().getDimension(com.luseen.luseenbottomnavigation.R.dimen.bottom_navigation_text_size_active);
-        float textInactiveSize = context.getResources().getDimension(com.luseen.luseenbottomnavigation.R.dimen.bottom_navigation_text_size_inactive);
         int centerX;
         int centerY;
         for (int i = 0; i < viewList.size(); i++) {
@@ -271,7 +218,7 @@ public class BottomNavigationView extends RelativeLayout {
                 BottomNavigationUtils.changeTextSize(title, withText ? textInactiveSize : 0, textActiveSize);
                 BottomNavigationUtils.imageColorChange(icon, itemInactiveColor, itemActiveColorWithoutColoredBackground);
                 if (isTablet)
-                    BottomNavigationUtils.changeTopRight(view, withText ? viewInactivePaddingTop : viewInactivePaddingTopWithoutText, viewActivePaddingTop);
+                    BottomNavigationUtils.changeRightPadding(view, withText ? viewInactivePaddingTop : viewInactivePaddingTopWithoutText, viewActivePaddingTop);
                 else
                     BottomNavigationUtils.changeTopPadding(view, withText ? viewInactivePaddingTop : viewInactivePaddingTopWithoutText, viewActivePaddingTop);
                 icon.animate()
@@ -310,7 +257,7 @@ public class BottomNavigationView extends RelativeLayout {
                 BottomNavigationUtils.changeTextColor(title, itemActiveColorWithoutColoredBackground, itemInactiveColor);
                 BottomNavigationUtils.changeTextSize(title, textActiveSize, withText ? textInactiveSize : 0);
                 if (isTablet)
-                    BottomNavigationUtils.changeTopRight(view, viewActivePaddingTop, withText ? viewInactivePaddingTop : viewInactivePaddingTopWithoutText);
+                    BottomNavigationUtils.changeRightPadding(view, viewActivePaddingTop, withText ? viewInactivePaddingTop : viewInactivePaddingTopWithoutText);
                 else
                     BottomNavigationUtils.changeTopPadding(view, viewActivePaddingTop, withText ? viewInactivePaddingTop : viewInactivePaddingTopWithoutText);
                 icon.animate()
@@ -375,9 +322,93 @@ public class BottomNavigationView extends RelativeLayout {
 
 
     /**
+     * Add item for BottomNavigation
+     *
+     * @param item item to add
+     */
+    public void addTab(BottomNavigationItem item) {
+        bottomNavigationItems.add(item);
+    }
+
+    /**
+     * Activate BottomNavigation tablet mode
+     */
+    public void activateTabletMode() {
+        isTablet = true;
+    }
+
+    /**
+     * Change text visibility
+     *
+     * @param withText disable or enable item text
+     */
+    public void isWithText(boolean withText) {
+        this.withText = withText;
+    }
+
+    /**
+     * Item Active Color if isColoredBackground(false)
+     *
+     * @param itemActiveColorWithoutColoredBackground active item color
+     */
+    public void setItemActiveColorWithoutColoredBackground(int itemActiveColorWithoutColoredBackground) {
+        this.itemActiveColorWithoutColoredBackground = itemActiveColorWithoutColoredBackground;
+    }
+
+    /**
+     * With this BottomNavigation background will be white
+     *
+     * @param coloredBackground disable or enable background color
+     */
+    public void isColoredBackground(boolean coloredBackground) {
+        this.coloredBackground = coloredBackground;
+    }
+
+    /**
+     * Change tab programmatically
+     *
+     * @param position selected tab position
+     */
+    public void selectTab(int position) {
+        onBottomNavigationItemClick(position);
+        currentItem = position;
+    }
+
+    /**
+     * Disable shadow of BottomNavigationView
+     */
+    public void disableShadow() {
+        disableShadow = true;
+    }
+
+    /**
+     * Disable slide animation when using ViewPager
+     */
+    public void disableViewPagerSlide() {
+        viewPagerSlide = false;
+    }
+
+    /**
+     * Change Active text size
+     *
+     * @param textActiveSize size
+     */
+    public void setTextActiveSize(float textActiveSize) {
+        this.textActiveSize = textActiveSize;
+    }
+
+    /**
+     * Change Inactive text size
+     *
+     * @param textInactiveSize size
+     */
+    public void setTextInactiveSize(float textInactiveSize) {
+        this.textInactiveSize = textInactiveSize;
+    }
+
+    /**
      * Setup interface for item onClick
      */
-
     public void setOnBottomNavigationItemClickListener(OnBottomNavigationItemClickListener onBottomNavigationItemClickListener) {
         this.onBottomNavigationItemClickListener = onBottomNavigationItemClickListener;
     }
