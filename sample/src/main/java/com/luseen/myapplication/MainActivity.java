@@ -25,8 +25,7 @@ public class MainActivity extends AppCompatActivity {
         b = (Button) findViewById(R.id.button);
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavigation);
         if (bottomNavigationView != null) {
-            bottomNavigationView.isWithText(true);
-            bottomNavigationView.selectTab(2);
+            bottomNavigationView.isWithText(false);
             // bottomNavigationView.activateTabletMode();
             bottomNavigationView.disableViewPagerSlide();
             bottomNavigationView.isColoredBackground(true);

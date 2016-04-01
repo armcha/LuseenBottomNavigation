@@ -175,13 +175,13 @@ public class BottomNavigationView extends RelativeLayout {
                         itemInactiveColor);
                 icon.setScaleX((float) 1.1);
                 icon.setScaleY((float) 1.1);
-                if (isTablet)
-                    view.setPadding(view.getPaddingLeft(), view.getPaddingTop(), i == currentItem ? textActivePaddingTop : withText ? viewInactivePaddingTop : viewInactivePaddingTopWithoutText,
-                            view.getPaddingBottom());
-                else
-                    view.setPadding(view.getPaddingLeft(), i == currentItem ? textActivePaddingTop : withText ? viewInactivePaddingTop : viewInactivePaddingTopWithoutText, view.getPaddingRight(),
-                            view.getPaddingBottom());
             }
+            if (isTablet)
+                view.setPadding(view.getPaddingLeft(), view.getPaddingTop(), i == currentItem ? textActivePaddingTop : withText ? viewInactivePaddingTop : viewInactivePaddingTopWithoutText,
+                        view.getPaddingBottom());
+            else
+                view.setPadding(view.getPaddingLeft(), i == currentItem ? textActivePaddingTop : withText ? viewInactivePaddingTop : viewInactivePaddingTopWithoutText, view.getPaddingRight(),
+                        view.getPaddingBottom());
             title.setTextSize(TypedValue.COMPLEX_UNIT_PX, i == currentItem ?
                     textActiveSize :
                     withText ? textInactiveSize : 0);
