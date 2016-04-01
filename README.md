@@ -7,7 +7,7 @@ BottomNavigationView
 Designed according Google [guideLine][1]
 [1]: https://www.google.com/design/spec/components/bottom-navigation.html#bottom-navigation-usage
 [2]: http://luseen.com/
-[3]: http://fir.im/luseen?release_id=56fea547e75e2d4ed6000011
+[3]: http://fir.im/luseen?release_id=56feaea800fc741d61000000
 By [Luseen][2] Technologies 
 
 [Download simple apk][3]
@@ -52,11 +52,10 @@ Add BottomNavigation items
 ```java
   BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavigation);
   
-  BottomNavigationItem bottomNavigationItem = new BottomNavigationItem
-                ("Record", getResources().getColor(R.color.firstColor), R.drawable.ic_mic_black_24dp);
-  BottomNavigationItem bottomNavigationItem1 = new BottomNavigationItem
-                ("Like", getResources().getColor(R.color.secondColor), R.drawable.ic_favorite_black_24dp); 
-                
+   BottomNavigationItem bottomNavigationItem = new BottomNavigationItem
+                ("Record", ContextCompat.getColor(this, R.color.firstColor), R.drawable.ic_mic_black_24dp);
+   BottomNavigationItem bottomNavigationItem1 = new BottomNavigationItem
+                ("Like", ContextCompat.getColor(this, R.color.secondColor), R.drawable.ic_favorite_black_24dp);
   bottomNavigationView.addTab(bottomNavigationItem);
   bottomNavigationView.addTab(bottomNavigationItem1);
 ```
