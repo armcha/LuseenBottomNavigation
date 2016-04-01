@@ -7,7 +7,10 @@ BottomNavigationView
 Designed according Google [guideLine][1]
 [1]: https://www.google.com/design/spec/components/bottom-navigation.html#bottom-navigation-usage
 [2]: http://luseen.com/
+[3]: http://fir.im/luseen?release_id=56fea547e75e2d4ed6000011
 By [Luseen][2] Technologies 
+
+[Download simple apk][3]
 
 
 
