@@ -161,25 +161,23 @@ public class BottomNavigationView extends RelativeLayout {
                 title.setVisibility(GONE);
             title.setTextColor(itemInactiveColor);
             viewList.add(view);
+            icon.setImageResource(bottomNavigationItems.get(i).getImageResource());
+            icon.setColorFilter(i == currentItem ? itemActiveColorWithoutColoredBackground : itemInactiveColor);
             if (i == currentItem) {
                 container.setBackgroundColor(bottomNavigationItems.get(index).getColor());
                 title.setTextColor(currentItem == i ?
                         itemActiveColorWithoutColoredBackground :
                         itemInactiveColor);
-            }
-            if (isTablet)
-                view.setPadding(view.getPaddingLeft(), view.getPaddingTop(), i == 0 ? textActivePaddingTop : withText ? viewInactivePaddingTop : viewInactivePaddingTopWithoutText,
-                        view.getPaddingBottom());
-            else
-                view.setPadding(view.getPaddingLeft(), i == 0 ? textActivePaddingTop : withText ? viewInactivePaddingTop : viewInactivePaddingTopWithoutText, view.getPaddingRight(),
-                        view.getPaddingBottom());
-            icon.setImageResource(bottomNavigationItems.get(i).getImageResource());
-            icon.setColorFilter(i == 0 ? itemActiveColorWithoutColoredBackground : itemInactiveColor);
-            if (i == 0) {
                 icon.setScaleX((float) 1.1);
                 icon.setScaleY((float) 1.1);
+                if (isTablet)
+                    view.setPadding(view.getPaddingLeft(), view.getPaddingTop(), i == currentItem ? textActivePaddingTop : withText ? viewInactivePaddingTop : viewInactivePaddingTopWithoutText,
+                            view.getPaddingBottom());
+                else
+                    view.setPadding(view.getPaddingLeft(), i == currentItem ? textActivePaddingTop : withText ? viewInactivePaddingTop : viewInactivePaddingTopWithoutText, view.getPaddingRight(),
+                            view.getPaddingBottom());
             }
-            title.setTextSize(TypedValue.COMPLEX_UNIT_PX, currentItem == i ?
+            title.setTextSize(TypedValue.COMPLEX_UNIT_PX, i == currentItem ?
                     context.getResources().getDimension(com.luseen.luseenbottomnavigation.R.dimen.bottom_navigation_text_size_active) :
                     withText ? context.getResources().getDimension(com.luseen.luseenbottomnavigation.R.dimen.bottom_navigation_text_size_inactive) : 0);
             title.setText(bottomNavigationItems.get(i).getTitle());
@@ -226,6 +224,15 @@ public class BottomNavigationView extends RelativeLayout {
      */
     public void isColoredBackground(boolean coloredBackground) {
         this.coloredBackground = coloredBackground;
+    }
+
+    /**
+     * Manually select tab
+     * @param position selected tab position
+     */
+    public void selectTab(int position){
+        onBottomNavigationItemClick(position);
+        currentItem = position;
     }
 
     /**
