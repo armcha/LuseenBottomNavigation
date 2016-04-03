@@ -23,14 +23,14 @@ Download
 
 Gradle:
 ```groovy
-compile 'com.github.armcha:LuseenBottomNavigation:1.5.2'
+compile 'com.github.armcha:LuseenBottomNavigation:1.5.3'
 ```
 Maven:
 ```xml
 <dependency>
   <groupId>com.github.armcha</groupId>
   <artifactId>LuseenBottomNavigation</artifactId>
-  <version>1.5.2</version>
+  <version>1.5.3</version>
   <type>pom</type>
 </dependency>
 ```
@@ -71,10 +71,11 @@ Then set your `OnBottomNavigationItemClickListener`
             }
         });
 ```
-If you are using a `ViewPager` , you can connect to the `BottomNavigationView`:
+If you are using a `ViewPager` , you can connect to the `BottomNavigationView`,
+Set color in this way, when using view pager:
   
   ```java
-   get color in this way ContextCompat.getColor(context, R.color.firstColor)
+   ContextCompat.getColor(context, R.color.firstColor)
    bottomNavigationView.setUpWithViewPager(yourPager , colorResources , imageResources);
   ```
 You can disable slide animation when using viewPager
