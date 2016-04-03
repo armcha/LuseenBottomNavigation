@@ -74,7 +74,8 @@ Then set your `OnBottomNavigationItemClickListener`
 If you are using a `ViewPager` , you can connect to the `BottomNavigationView`:
   
   ```java
-  bottomNavigationView.setViewPager(yourPager , colorResources , imageResources);
+   get color in this way ContextCompat.getColor(context, R.color.firstColor)
+   bottomNavigationView.setUpWithViewPager(yourPager , colorResources , imageResources);
   ```
 You can disable slide animation when using viewPager
   ```java

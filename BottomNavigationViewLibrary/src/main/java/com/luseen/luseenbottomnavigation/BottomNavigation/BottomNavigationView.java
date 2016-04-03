@@ -284,7 +284,7 @@ public class BottomNavigationView extends RelativeLayout {
      * @param imageResources images resources for every item in the ViewPager adapter
      */
 
-    public void setViewPager(ViewPager pager, int[] colorResources, int[] imageResources) {
+    public void setUpWithViewPager(ViewPager pager, int[] colorResources, int[] imageResources) {
         this.mViewPager = pager;
         if (pager.getAdapter().getCount() != colorResources.length || pager.getAdapter().getCount() != imageResources.length)
             throw new IllegalArgumentException("colorResources and imageResources must be equal to the ViewPager items : " + pager.getAdapter().getCount());
@@ -292,34 +292,23 @@ public class BottomNavigationView extends RelativeLayout {
         for (int i = 0; i < pager.getAdapter().getCount(); i++)
             addTab(new BottomNavigationItem(pager.getAdapter().getPageTitle(i).toString(), colorResources[i], imageResources[i]));
 
-        mViewPager.addOnPageChangeListener(new internalViewPagerListener());
-        invalidate();
+        mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                selectTab(position);
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
     }
-
-    private class internalViewPagerListener implements ViewPager.OnPageChangeListener {
-
-        private int mScrollState;
-
-        @Override
-        public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-            if (mScrollState == ViewPager.SCROLL_STATE_DRAGGING)
-                onBottomNavigationItemClick(position);
-        }
-
-        @Override
-        public void onPageSelected(int position) {
-            onBottomNavigationItemClick(position);
-        }
-
-        @Override
-        public void onPageScrollStateChanged(int state) {
-            if (state == ViewPager.SCROLL_STATE_DRAGGING)
-                mScrollState = ViewPager.SCROLL_STATE_DRAGGING;
-            else if (state == ViewPager.SCROLL_STATE_IDLE)
-                mScrollState = ViewPager.SCROLL_STATE_IDLE;
-        }
-    }
-
 
     /**
      * Add item for BottomNavigation
