@@ -23,14 +23,14 @@ Download
 
 Gradle:
 ```groovy
-compile 'com.github.armcha:LuseenBottomNavigation:1.6.0'
+compile 'com.github.armcha:LuseenBottomNavigation:1.5.2'
 ```
 Maven:
 ```xml
 <dependency>
   <groupId>com.github.armcha</groupId>
   <artifactId>LuseenBottomNavigation</artifactId>
-  <version>1.6.0</version>
+  <version>1.5.2</version>
   <type>pom</type>
 </dependency>
 ```
@@ -76,7 +76,7 @@ Set color in this way, when using view pager:
   
   ```java
    ContextCompat.getColor(context, R.color.firstColor)
-   bottomNavigationView.setUpWithViewPager(yourPager , colorResources , imageResources);
+   bottomNavigationView.setViewPager(yourPager , colorResources , imageResources);
   ```
 You can disable slide animation when using viewPager
   ```java
