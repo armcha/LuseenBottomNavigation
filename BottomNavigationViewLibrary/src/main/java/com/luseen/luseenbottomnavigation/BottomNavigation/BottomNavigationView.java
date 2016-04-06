@@ -401,4 +401,13 @@ public class BottomNavigationView extends RelativeLayout {
     public void setOnBottomNavigationItemClickListener(OnBottomNavigationItemClickListener onBottomNavigationItemClickListener) {
         this.onBottomNavigationItemClickListener = onBottomNavigationItemClickListener;
     }
+
+    /**
+     * Returns the item that is currently selected
+     * 
+     * @return Currently selected item
+     */
+    public int getCurrentItem(){
+        return currentItem;
+    }
 }
