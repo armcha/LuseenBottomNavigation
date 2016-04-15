@@ -29,12 +29,6 @@ public class MainActivity extends AppCompatActivity {
         pagerParams.setMargins(BottomNavigationUtils.getActionbarSize(this),pagerParams.topMargin,
                 pagerParams.rightMargin,pagerParams.bottomMargin);
         pager.setLayoutParams(pagerParams);*/
-        if (bottomNavigationView != null) {
-            bottomNavigationView.isWithText(false);
-            //bottomNavigationView.activateTabletMode();
-            bottomNavigationView.isColoredBackground(true);
-            bottomNavigationView.setItemActiveColorWithoutColoredBackground(ContextCompat.getColor(this, R.color.firstColor));
-        }
         pager.setAdapter(adapter);
         bottomNavigationView.setUpWithViewPager(pager, color, image);
     }

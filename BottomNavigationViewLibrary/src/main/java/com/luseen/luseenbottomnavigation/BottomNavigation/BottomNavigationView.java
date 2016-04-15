@@ -3,6 +3,8 @@ package com.luseen.luseenbottomnavigation.BottomNavigation;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.content.Context;
+import android.content.res.Resources;
+import android.content.res.TypedArray;
 import android.os.Build;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
@@ -29,8 +31,8 @@ public class BottomNavigationView extends RelativeLayout {
     private Context context;
     private final int NAVIGATION_HEIGHT = (int) getResources().getDimension(com.luseen.luseenbottomnavigation.R.dimen.bottom_navigation_height);
     private final int NAVIGATION_LINE_WIDTH = (int) getResources().getDimension(R.dimen.bottom_navigation_line_width);
-    private float textActiveSize = getResources().getDimension(com.luseen.luseenbottomnavigation.R.dimen.bottom_navigation_text_size_active);
-    private float textInactiveSize = getResources().getDimension(com.luseen.luseenbottomnavigation.R.dimen.bottom_navigation_text_size_inactive);
+    private float textActiveSize;
+    private float textInactiveSize;
     private List<BottomNavigationItem> bottomNavigationItems = new ArrayList<>();
     private List<View> viewList = new ArrayList<>();
     private int itemActiveColorWithoutColoredBackground = -1;
@@ -40,29 +42,45 @@ public class BottomNavigationView extends RelativeLayout {
     private int itemInactiveColor;
     private int itemWidth;
     private int itemHeight;
-    private boolean withText = true;
-    private boolean coloredBackground = true;
-    private boolean disableShadow = false;
-    private boolean isTablet = false;
-    private boolean viewPagerSlide = true;
+    private boolean withText;
+    private boolean coloredBackground;
+    private boolean disableShadow;
+    private boolean isTablet;
+    private boolean viewPagerSlide;
     private FrameLayout container;
     private View backgroundColorTemp;
     private ViewPager mViewPager;
 
-
     public BottomNavigationView(Context context) {
-        super(context);
-        this.context = context;
+        this(context, null);
+    }
+
+    public BottomNavigationView(Context context, AttributeSet attrs) {
+        this(context, attrs, 0);
     }
 
     public BottomNavigationView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         this.context = context;
+        init(attrs);
     }
 
-    public BottomNavigationView(Context context, AttributeSet attrs) {
-        super(context, attrs);
-        this.context = context;
+    private void init(AttributeSet attrs) {
+        if (attrs != null) {
+            Resources res = getResources();
+            TypedArray array = context.obtainStyledAttributes(attrs, R.styleable.BottomNavigationView);
+
+            withText = array.getBoolean(R.styleable.BottomNavigationView_bnv_with_text, true);
+            coloredBackground = array.getBoolean(R.styleable.BottomNavigationView_bnv_colored_background, true);
+            disableShadow = array.getBoolean(R.styleable.BottomNavigationView_bnv_shadow, false);
+            isTablet = array.getBoolean(R.styleable.BottomNavigationView_bnv_tablet, false);
+            viewPagerSlide = array.getBoolean(R.styleable.BottomNavigationView_bnv_viewpager_slide, true);
+            itemActiveColorWithoutColoredBackground = array.getColor(R.styleable.BottomNavigationView_bnv_active_color, -1);
+            textActiveSize = array.getDimensionPixelSize(R.styleable.BottomNavigationView_bnv_active_text_size, res.getDimensionPixelSize(R.dimen.bottom_navigation_text_size_active));
+            textInactiveSize = array.getDimensionPixelSize(R.styleable.BottomNavigationView_bnv_inactive_text_size, res.getDimensionPixelSize(R.dimen.bottom_navigation_text_size_inactive));
+
+            array.recycle();
+        }
     }
 
     @Override
@@ -404,10 +422,10 @@ public class BottomNavigationView extends RelativeLayout {
 
     /**
      * Returns the item that is currently selected
-     * 
+     *
      * @return Currently selected item
      */
-    public int getCurrentItem(){
+    public int getCurrentItem() {
         return currentItem;
     }
 }
