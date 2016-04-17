@@ -83,7 +83,28 @@ You can disable slide animation when using viewPager
   bottomNavigationView.disableViewPagerSlide();
   ```
 Customize
---------
+---------
+
+Customize with xml
+
+```xml
+  <com.luseen.luseenbottomnavigation.BottomNavigation.BottomNavigationView
+         android:id="@+id/bottomNavigation"
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:layout_alignParentBottom="true"
+         app:bnv_colored_background="true"
+         app:bnv_with_text="false"
+         app:bnv_shadow="true"
+         app:bnv_tablet="false"
+         app:bnv_viewpager_slide="true"
+         app:bnv_active_color="@color/colorPrimary"
+         app:bnv_active_text_size="@dimen/bottom_navigation_text_size_active"
+         app:bnv_inactive_text_size="@dimen/bottom_navigation_text_size_inactive"/>
+```
+
+or programmatically
+
 
 You can activate tablet mode
 ```java

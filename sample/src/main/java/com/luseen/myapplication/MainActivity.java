@@ -13,6 +13,7 @@ public class MainActivity extends AppCompatActivity {
     ViewPager pager;
     SimpleTabAdapter adapter;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
