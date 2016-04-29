@@ -5,6 +5,7 @@ public class BottomNavigationItem {
     private String title;
     private int color;
     private int imageResource;
+    private int imageResourceActive = 0;
 
     public BottomNavigationItem(String title, int color, int imageResource) {
         this.title = title;
@@ -33,5 +34,13 @@ public class BottomNavigationItem {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public int getImageResourceActive() {
+        return imageResourceActive;
+    }
+
+    public void setImageResourceActive(int imageResourceActive) {
+        this.imageResourceActive = imageResourceActive;
     }
 }
