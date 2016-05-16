@@ -23,13 +23,13 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.android.support:appcompat-v7:23.2.1'
+    compile 'com.android.support:appcompat-v7:23.4.0'
 }
 
 publish {
     groupId = 'com.github.armcha'
     artifactId = 'LuseenBottomNavigation'
-    publishVersion = '1.6.0'
+    publishVersion = '1.7.2'
     desc = 'Material Bottom Navigation'
     licences = ['MIT']
     website = 'https://github.com/armcha/LuseenBottomNavigation'

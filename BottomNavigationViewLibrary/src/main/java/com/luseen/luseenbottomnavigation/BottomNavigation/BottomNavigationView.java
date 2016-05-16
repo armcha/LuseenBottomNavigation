@@ -9,6 +9,7 @@ import android.os.Build;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -36,7 +37,7 @@ public class BottomNavigationView extends RelativeLayout {
     private List<BottomNavigationItem> bottomNavigationItems = new ArrayList<>();
     private List<View> viewList = new ArrayList<>();
     private int itemActiveColorWithoutColoredBackground = -1;
-    private int currentItem = 0;
+    private static int currentItem = 0;
     private int navigationWidth;
     private int shadowHeight;
     private int itemInactiveColor;
@@ -47,9 +48,11 @@ public class BottomNavigationView extends RelativeLayout {
     private boolean disableShadow;
     private boolean isTablet;
     private boolean viewPagerSlide;
+    private boolean willNotRecreate = true;
     private FrameLayout container;
     private View backgroundColorTemp;
     private ViewPager mViewPager;
+
 
     public BottomNavigationView(Context context) {
         this(context, null);
@@ -68,8 +71,8 @@ public class BottomNavigationView extends RelativeLayout {
     private void init(AttributeSet attrs) {
         if (attrs != null) {
             Resources res = getResources();
-            TypedArray array = context.obtainStyledAttributes(attrs, R.styleable.BottomNavigationView);
 
+            TypedArray array = context.obtainStyledAttributes(attrs, R.styleable.BottomNavigationView);
             withText = array.getBoolean(R.styleable.BottomNavigationView_bnv_with_text, true);
             coloredBackground = array.getBoolean(R.styleable.BottomNavigationView_bnv_colored_background, true);
             disableShadow = array.getBoolean(R.styleable.BottomNavigationView_bnv_shadow, false);
@@ -86,6 +89,7 @@ public class BottomNavigationView extends RelativeLayout {
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+
         navigationWidth = BottomNavigationUtils.getActionbarSize(context);
         ViewGroup.LayoutParams params = getLayoutParams();
         if (coloredBackground) {
@@ -109,11 +113,17 @@ public class BottomNavigationView extends RelativeLayout {
             }
         }
         setLayoutParams(params);
+
+
     }
+
 
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
+
+        if (willNotRecreate)
+            removeAllViews();
         if (currentItem < 0 || currentItem > (bottomNavigationItems.size() - 1)) {
             throw new IndexOutOfBoundsException(currentItem < 0 ? "Position must be 0 or greater than 0, current is " + currentItem
                     : "Position must be less or equivalent than items size, items size is " + (bottomNavigationItems.size() - 1) + " current is " + currentItem);
@@ -184,9 +194,12 @@ public class BottomNavigationView extends RelativeLayout {
                 title.setVisibility(GONE);
             title.setTextColor(itemInactiveColor);
             viewList.add(view);
-            if(bottomNavigationItems.get(i).getImageResourceActive()!=0){
-                icon.setImageResource((i == currentItem) ?(bottomNavigationItems.get(i).getImageResourceActive()):(bottomNavigationItems.get(i).getImageResource()));
-            }else{
+            if (bottomNavigationItems.get(i).getImageResourceActive() != 0) {
+                if (i == currentItem)
+                    icon.setImageResource(bottomNavigationItems.get(i).getImageResourceActive());
+                else
+                    bottomNavigationItems.get(i).getImageResource();
+            } else {
                 icon.setImageResource(bottomNavigationItems.get(i).getImageResource());
                 icon.setColorFilter(i == currentItem ? itemActiveColorWithoutColoredBackground : itemInactiveColor);
             }
@@ -216,8 +229,8 @@ public class BottomNavigationView extends RelativeLayout {
                     onBottomNavigationItemClick(index);
                 }
             });
-        }
 
+        }
     }
 
     private void onBottomNavigationItemClick(final int itemIndex) {
@@ -238,9 +251,9 @@ public class BottomNavigationView extends RelativeLayout {
                 final ImageView icon = (ImageView) view.findViewById(com.luseen.luseenbottomnavigation.R.id.bottom_navigation_item_icon);
                 BottomNavigationUtils.changeTextColor(title, itemInactiveColor, itemActiveColorWithoutColoredBackground);
                 BottomNavigationUtils.changeTextSize(title, withText ? textInactiveSize : 0, textActiveSize);
-                if(bottomNavigationItems.get(i).getImageResourceActive()!=0){
+                if (bottomNavigationItems.get(i).getImageResourceActive() != 0) {
                     icon.setImageResource((bottomNavigationItems.get(i).getImageResourceActive()));
-                }else{
+                } else {
                     BottomNavigationUtils.imageColorChange(icon, itemInactiveColor, itemActiveColorWithoutColoredBackground);
                 }
                 if (isTablet)
@@ -279,9 +292,9 @@ public class BottomNavigationView extends RelativeLayout {
                 View view = viewList.get(i).findViewById(com.luseen.luseenbottomnavigation.R.id.bottom_navigation_container);
                 final TextView title = (TextView) view.findViewById(com.luseen.luseenbottomnavigation.R.id.bottom_navigation_item_title);
                 final ImageView icon = (ImageView) view.findViewById(com.luseen.luseenbottomnavigation.R.id.bottom_navigation_item_icon);
-                if(bottomNavigationItems.get(i).getImageResourceActive()!=0){
+                if (bottomNavigationItems.get(i).getImageResourceActive() != 0) {
                     icon.setImageResource((bottomNavigationItems.get(i).getImageResource()));
-                }else{
+                } else {
                     BottomNavigationUtils.imageColorChange(icon, itemActiveColorWithoutColoredBackground, itemInactiveColor);
                 }
                 BottomNavigationUtils.changeTextColor(title, itemActiveColorWithoutColoredBackground, itemInactiveColor);
@@ -321,23 +334,6 @@ public class BottomNavigationView extends RelativeLayout {
 
         for (int i = 0; i < pager.getAdapter().getCount(); i++)
             addTab(new BottomNavigationItem(pager.getAdapter().getPageTitle(i).toString(), colorResources[i], imageResources[i]));
-
-        mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-            }
-
-            @Override
-            public void onPageSelected(int position) {
-                selectTab(position);
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-
-            }
-        });
     }
 
     /**
@@ -439,5 +435,14 @@ public class BottomNavigationView extends RelativeLayout {
      */
     public int getCurrentItem() {
         return currentItem;
+    }
+
+    /**
+     * If your activity/fragment will not recreate
+     * you can call this method
+     * @param willNotRecreate set true if will not recreate
+     */
+    public void willNotRecreate(boolean willNotRecreate) {
+        this.willNotRecreate = willNotRecreate;
     }
 }

@@ -137,6 +137,13 @@ You can just disable BottomNavigationView shadow by calling
 ```java
  bottomNavigationView.disableShadow();
 ```
+
+If your activity/fragment will not recreate and bottom navigation items doubled on orientation change,
+just can call this method
+     
+```java
+bottomNavigationView.willNotRecreate(true);
+```
  
 ## Contact 
 
