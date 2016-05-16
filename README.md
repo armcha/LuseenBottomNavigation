@@ -82,13 +82,7 @@ You can disable slide animation when using viewPager
   ```java
   bottomNavigationView.disableViewPagerSlide();
   ```
-  
-If your activity/fragment will not recreate and bottom navigation items doubled on orientation change,
-just can call this method
-     
-```java
-bottomNavigationView.willNotRecreate(true);
-```
+
 
 
 Customize
