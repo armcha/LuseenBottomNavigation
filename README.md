@@ -23,14 +23,14 @@ Download
 
 Gradle:
 ```groovy
-compile 'com.github.armcha:LuseenBottomNavigation:1.7.0'
+compile 'com.github.armcha:LuseenBottomNavigation:1.7.2'
 ```
 Maven:
 ```xml
 <dependency>
   <groupId>com.github.armcha</groupId>
   <artifactId>LuseenBottomNavigation</artifactId>
-  <version>1.7.0</version>
+  <version>1.7.2</version>
   <type>pom</type>
 </dependency>
 ```
@@ -82,7 +82,13 @@ You can disable slide animation when using viewPager
   ```java
   bottomNavigationView.disableViewPagerSlide();
   ```
-
+  
+If your activity/fragment will not recreate and bottom navigation items doubled on orientation change,
+just can call this method
+     
+```java
+bottomNavigationView.willNotRecreate(true);
+```
 
 
 Customize
