@@ -5,6 +5,7 @@ import android.animation.AnimatorListenerAdapter;
 import android.content.Context;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
+import android.graphics.Typeface;
 import android.os.Build;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
@@ -29,29 +30,56 @@ import java.util.List;
 public class BottomNavigationView extends RelativeLayout {
 
     private OnBottomNavigationItemClickListener onBottomNavigationItemClickListener;
+
     private Context context;
+
     private final int NAVIGATION_HEIGHT = (int) getResources().getDimension(com.luseen.luseenbottomnavigation.R.dimen.bottom_navigation_height);
+
     private final int NAVIGATION_LINE_WIDTH = (int) getResources().getDimension(R.dimen.bottom_navigation_line_width);
+
     private float textActiveSize;
+
     private float textInactiveSize;
+
     private List<BottomNavigationItem> bottomNavigationItems = new ArrayList<>();
+
     private List<View> viewList = new ArrayList<>();
+
     private int itemActiveColorWithoutColoredBackground = -1;
+
     private static int currentItem = 0;
+
     private int navigationWidth;
+
     private int shadowHeight;
+
     private int itemInactiveColor;
+
     private int itemWidth;
+
     private int itemHeight;
+
     private boolean withText;
+
     private boolean coloredBackground;
+
     private boolean disableShadow;
+
     private boolean isTablet;
+
     private boolean viewPagerSlide;
+
+    private boolean isCustomFont = false;
+
     private boolean willNotRecreate = true;
+
     private FrameLayout container;
+
     private View backgroundColorTemp;
+
     private ViewPager mViewPager;
+
+    private Typeface font;
 
 
     public BottomNavigationView(Context context) {
@@ -190,6 +218,8 @@ public class BottomNavigationView extends RelativeLayout {
             final View view = inflater.inflate(com.luseen.luseenbottomnavigation.R.layout.bottom_navigation, this, false);
             ImageView icon = (ImageView) view.findViewById(com.luseen.luseenbottomnavigation.R.id.bottom_navigation_item_icon);
             TextView title = (TextView) view.findViewById(com.luseen.luseenbottomnavigation.R.id.bottom_navigation_item_title);
+            if (isCustomFont)
+                title.setTypeface(font);
             if (isTablet)
                 title.setVisibility(GONE);
             title.setTextColor(itemInactiveColor);
@@ -440,9 +470,20 @@ public class BottomNavigationView extends RelativeLayout {
     /**
      * If your activity/fragment will not recreate
      * you can call this method
+     *
      * @param willNotRecreate set true if will not recreate
      */
     public void willNotRecreate(boolean willNotRecreate) {
         this.willNotRecreate = willNotRecreate;
+    }
+
+    /**
+     * set custom font for item texts
+     *
+     * @param font custom font
+     */
+    public void setFont(Typeface font) {
+        isCustomFont = true;
+        this.font = font;
     }
 }

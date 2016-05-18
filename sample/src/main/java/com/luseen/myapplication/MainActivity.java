@@ -1,6 +1,7 @@
 package com.luseen.myapplication;
 
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
@@ -38,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
             // bottomNavigationView.activateTabletMode();
             bottomNavigationView.isColoredBackground(true);
             bottomNavigationView.setItemActiveColorWithoutColoredBackground(ContextCompat.getColor(this, R.color.firstColor));
+            bottomNavigationView.setFont(Typeface.createFromAsset(getApplicationContext().getAssets(), "fonts/Noh_normal.ttf"));
         }
 
         BottomNavigationItem bottomNavigationItem = new BottomNavigationItem

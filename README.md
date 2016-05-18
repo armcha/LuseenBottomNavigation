@@ -147,6 +147,12 @@ You can just disable BottomNavigationView shadow by calling
  bottomNavigationView.disableShadow();
 ```
  
+You can set your custom font for item text
+assets/fonts/your_font.ttf
+```java
+ bottomNavigationView.setFont(Typeface.createFromAsset(getApplicationContext().getAssets(), "fonts/your_font.ttf"));
+```
+
 ## Contact 
 
 Pull requests are more than welcome.
