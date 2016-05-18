@@ -23,14 +23,14 @@ Download
 
 Gradle:
 ```groovy
-compile 'com.github.armcha:LuseenBottomNavigation:1.7.2'
+compile 'com.github.armcha:LuseenBottomNavigation:1.8.0'
 ```
 Maven:
 ```xml
 <dependency>
   <groupId>com.github.armcha</groupId>
   <artifactId>LuseenBottomNavigation</artifactId>
-  <version>1.7.2</version>
+  <version>1.8.0</version>
   <type>pom</type>
 </dependency>
 ```
@@ -147,7 +147,7 @@ You can just disable BottomNavigationView shadow by calling
  bottomNavigationView.disableShadow();
 ```
  
-You can set your custom font for item text
+You can set your custom font for item text.
 assets/fonts/your_font.ttf
 ```java
  bottomNavigationView.setFont(Typeface.createFromAsset(getApplicationContext().getAssets(), "fonts/your_font.ttf"));
