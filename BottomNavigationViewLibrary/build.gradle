@@ -29,7 +29,7 @@ dependencies {
 publish {
     groupId = 'com.github.armcha'
     artifactId = 'LuseenBottomNavigation'
-    publishVersion = '1.8.0'
+    publishVersion = '1.8.2'
     desc = 'Material Bottom Navigation'
     licences = ['MIT']
     website = 'https://github.com/armcha/LuseenBottomNavigation'
