@@ -1,12 +1,9 @@
 package com.luseen.myapplication;
 
-import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -17,16 +14,18 @@ import com.luseen.luseenbottomnavigation.BottomNavigation.OnBottomNavigationItem
 
 public class MainActivity extends AppCompatActivity {
 
-    public BottomNavigationView bottomNavigationView;
-    TextView t;
-    Button b;
+    private BottomNavigationView bottomNavigationView;
+
+    private TextView textView;
+
+    private Button button;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        t = (TextView) findViewById(R.id.textView);
-        b = (Button) findViewById(R.id.button);
+        textView = (TextView) findViewById(R.id.textView);
+        button = (Button) findViewById(R.id.button);
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavigation);
 
         int[] image = {R.drawable.ic_mic_black_24dp, R.drawable.ic_favorite_black_24dp,
@@ -38,6 +37,8 @@ public class MainActivity extends AppCompatActivity {
             bottomNavigationView.isWithText(false);
             // bottomNavigationView.activateTabletMode();
             bottomNavigationView.isColoredBackground(true);
+            bottomNavigationView.setTextActiveSize(getResources().getDimension(R.dimen.text_active));
+            bottomNavigationView.setTextInactiveSize(getResources().getDimension(R.dimen.text_inactive));
             bottomNavigationView.setItemActiveColorWithoutColoredBackground(ContextCompat.getColor(this, R.color.firstColor));
             bottomNavigationView.setFont(Typeface.createFromAsset(getApplicationContext().getAssets(), "fonts/Noh_normal.ttf"));
         }
@@ -62,21 +63,22 @@ public class MainActivity extends AppCompatActivity {
             public void onNavigationItemClick(int index) {
                 switch (index) {
                     case 0:
-                        t.setText("Record");
+                        textView.setText("Record");
                         break;
                     case 1:
-                        t.setText("Like");
+                        textView.setText("Like");
                         break;
                     case 2:
-                        t.setText("Books");
+                        textView.setText("Books");
                         break;
                     case 3:
-                        t.setText("GitHub");
+                        textView.setText("GitHub");
                         break;
                 }
             }
         });
-        b.setOnClickListener(new View.OnClickListener() {
+
+        button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 bottomNavigationView.selectTab(2);

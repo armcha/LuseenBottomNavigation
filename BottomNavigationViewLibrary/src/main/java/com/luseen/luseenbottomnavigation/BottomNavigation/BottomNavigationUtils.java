@@ -7,12 +7,13 @@ import android.content.res.Resources;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public class BottomNavigationUtils {
+class BottomNavigationUtils {
 
-    public static void imageColorChange(final ImageView image, int fromColor, int toColor) {
+    static void changeImageColorFilter(final ImageView image, int fromColor, int toColor) {
         ValueAnimator imageColorChangeAnimation = ValueAnimator.ofObject(new ArgbEvaluator(), fromColor, toColor);
         imageColorChangeAnimation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
@@ -24,7 +25,7 @@ public class BottomNavigationUtils {
         imageColorChangeAnimation.start();
     }
 
-    public static void backgroundColorChange(final View view, int fromColor, int toColor) {
+    static void changeViewBackgroundColor(final View view, int fromColor, int toColor) {
         ValueAnimator imageColorChangeAnimation = ValueAnimator.ofObject(new ArgbEvaluator(), fromColor, toColor);
         imageColorChangeAnimation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
@@ -36,7 +37,7 @@ public class BottomNavigationUtils {
         imageColorChangeAnimation.start();
     }
 
-    public static void changeTopPadding(final View view, int fromPadding, int toPadding) {
+    static void changeViewTopPadding(final View view, int fromPadding, int toPadding) {
         ValueAnimator animator = ValueAnimator.ofFloat(fromPadding, toPadding);
         animator.setDuration(150);
         animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
@@ -52,7 +53,7 @@ public class BottomNavigationUtils {
         animator.start();
     }
 
-    public static void changeRightPadding(final View view, int fromPadding, int toPadding) {
+    static void changeRightPadding(final View view, int fromPadding, int toPadding) {
         ValueAnimator animator = ValueAnimator.ofFloat(fromPadding, toPadding);
         animator.setDuration(150);
         animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
@@ -68,7 +69,25 @@ public class BottomNavigationUtils {
         animator.start();
     }
 
-    public static void changeTextSize(final TextView textView, float from, float to) {
+    static void changeViewLeftPadding(final View view, int fromMargin, int toMargin) {
+        ValueAnimator animator = ValueAnimator.ofFloat(fromMargin, toMargin);
+        animator.setDuration(3000);
+        animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                float animatedValue = (float) valueAnimator.getAnimatedValue();
+                view.setPadding((int) animatedValue,
+                        view.getPaddingTop(),
+                        view.getPaddingRight(),
+                        view.getPaddingBottom());
+                view.requestLayout();
+
+            }
+        });
+        animator.start();
+    }
+
+    static void changeTextSize(final TextView textView, float from, float to) {
         ValueAnimator textSizeChangeAnimator = ValueAnimator.ofFloat(from, to);
         textSizeChangeAnimator.setDuration(150);
         textSizeChangeAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
@@ -80,7 +99,7 @@ public class BottomNavigationUtils {
         textSizeChangeAnimator.start();
     }
 
-    public static void changeTextColor(final TextView textView, int fromColor, int toColor) {
+    static void changeTextColor(final TextView textView, int fromColor, int toColor) {
         ValueAnimator changeTextColorAnimation = ValueAnimator.ofObject(new ArgbEvaluator(), fromColor, toColor);
         changeTextColorAnimation.setDuration(150);
         changeTextColorAnimation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
@@ -92,7 +111,7 @@ public class BottomNavigationUtils {
         changeTextColorAnimation.start();
     }
 
-    public static int getActionbarSize(Context context) {
+    static int getActionbarSize(Context context) {
         int actionbarSize = -1;
         TypedValue typedValue = new TypedValue();
         if (context.getTheme().resolveAttribute(android.R.attr.actionBarSize, typedValue, true)) {
@@ -101,7 +120,7 @@ public class BottomNavigationUtils {
         return actionbarSize;
     }
 
-    public static int pxToDp(int px,Context context) {
+    public static int pxToDp(int px, Context context) {
         DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
         int dp = Math.round(px / (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT));
         return dp;

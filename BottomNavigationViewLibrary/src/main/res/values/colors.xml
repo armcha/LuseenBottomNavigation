@@ -2,7 +2,7 @@
 <resources>
     <color name="itemActiveColorWithoutColoredBackground">#2196F3</color>
     <color name="colorActive">#FFFFFF</color>
-    <color name="colorInactive">#d2d0d1</color>
+    <color name="colorInactive">#e7e6e7</color>
     <color name="withoutColoredBackground">#757575</color>
     <color name="white">#ffffff</color>
 </resources>

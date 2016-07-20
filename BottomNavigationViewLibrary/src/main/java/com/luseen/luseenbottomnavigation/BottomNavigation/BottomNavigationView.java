@@ -10,7 +10,6 @@ import android.os.Build;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -210,20 +209,26 @@ public class BottomNavigationView extends RelativeLayout {
 
         for (int i = 0; i < bottomNavigationItems.size(); i++) {
             final int index = i;
+
             if (!coloredBackground)
                 bottomNavigationItems.get(i).setColor(white);
+
             int textActivePaddingTop = (int) context.getResources().getDimension(com.luseen.luseenbottomnavigation.R.dimen.bottom_navigation_padding_top_active);
             int viewInactivePaddingTop = (int) context.getResources().getDimension(com.luseen.luseenbottomnavigation.R.dimen.bottom_navigation_padding_top_inactive);
             int viewInactivePaddingTopWithoutText = (int) context.getResources().getDimension(com.luseen.luseenbottomnavigation.R.dimen.bottom_navigation_padding_top_inactive_without_text);
             final View view = inflater.inflate(com.luseen.luseenbottomnavigation.R.layout.bottom_navigation, this, false);
             ImageView icon = (ImageView) view.findViewById(com.luseen.luseenbottomnavigation.R.id.bottom_navigation_item_icon);
             TextView title = (TextView) view.findViewById(com.luseen.luseenbottomnavigation.R.id.bottom_navigation_item_title);
+
             if (isCustomFont)
                 title.setTypeface(font);
+
             if (isTablet)
                 title.setVisibility(GONE);
+
             title.setTextColor(itemInactiveColor);
             viewList.add(view);
+
             if (bottomNavigationItems.get(i).getImageResourceActive() != 0) {
                 if (i == currentItem)
                     icon.setImageResource(bottomNavigationItems.get(i).getImageResourceActive());
@@ -233,20 +238,21 @@ public class BottomNavigationView extends RelativeLayout {
                 icon.setImageResource(bottomNavigationItems.get(i).getImageResource());
                 icon.setColorFilter(i == currentItem ? itemActiveColorWithoutColoredBackground : itemInactiveColor);
             }
+
             if (i == currentItem) {
                 container.setBackgroundColor(bottomNavigationItems.get(index).getColor());
-                title.setTextColor(currentItem == i ?
-                        itemActiveColorWithoutColoredBackground :
-                        itemInactiveColor);
+                title.setTextColor(itemActiveColorWithoutColoredBackground);
                 icon.setScaleX((float) 1.1);
                 icon.setScaleY((float) 1.1);
             }
+
             if (isTablet)
                 view.setPadding(view.getPaddingLeft(), view.getPaddingTop(), i == currentItem ? textActivePaddingTop : withText ? viewInactivePaddingTop : viewInactivePaddingTopWithoutText,
                         view.getPaddingBottom());
             else
                 view.setPadding(view.getPaddingLeft(), i == currentItem ? textActivePaddingTop : withText ? viewInactivePaddingTop : viewInactivePaddingTopWithoutText, view.getPaddingRight(),
                         view.getPaddingBottom());
+
             title.setTextSize(TypedValue.COMPLEX_UNIT_PX, i == currentItem ?
                     textActiveSize :
                     withText ? textInactiveSize : 0);
@@ -281,20 +287,25 @@ public class BottomNavigationView extends RelativeLayout {
                 final ImageView icon = (ImageView) view.findViewById(com.luseen.luseenbottomnavigation.R.id.bottom_navigation_item_icon);
                 BottomNavigationUtils.changeTextColor(title, itemInactiveColor, itemActiveColorWithoutColoredBackground);
                 BottomNavigationUtils.changeTextSize(title, withText ? textInactiveSize : 0, textActiveSize);
+
                 if (bottomNavigationItems.get(i).getImageResourceActive() != 0) {
                     icon.setImageResource((bottomNavigationItems.get(i).getImageResourceActive()));
                 } else {
-                    BottomNavigationUtils.imageColorChange(icon, itemInactiveColor, itemActiveColorWithoutColoredBackground);
+                    BottomNavigationUtils.changeImageColorFilter(icon, itemInactiveColor, itemActiveColorWithoutColoredBackground);
                 }
+
                 if (isTablet)
                     BottomNavigationUtils.changeRightPadding(view, withText ? viewInactivePaddingTop : viewInactivePaddingTopWithoutText, viewActivePaddingTop);
-                else
-                    BottomNavigationUtils.changeTopPadding(view, withText ? viewInactivePaddingTop : viewInactivePaddingTopWithoutText, viewActivePaddingTop);
+                else {
+                    BottomNavigationUtils.changeViewTopPadding(view, withText ? viewInactivePaddingTop : viewInactivePaddingTopWithoutText, viewActivePaddingTop);
+                }
+
                 icon.animate()
                         .setDuration(150)
                         .scaleX((float) 1.1)
                         .scaleY((float) 1.1)
                         .start();
+
                 if (isTablet) {
                     centerX = viewList.get(itemIndex).getWidth() / 2;
                     centerY = (int) viewList.get(itemIndex).getY() + viewList.get(itemIndex).getHeight() / 2;
@@ -302,6 +313,7 @@ public class BottomNavigationView extends RelativeLayout {
                     centerX = (int) viewList.get(itemIndex).getX() + viewList.get(itemIndex).getWidth() / 2;
                     centerY = viewList.get(itemIndex).getHeight() / 2;
                 }
+
                 int finalRadius = Math.max(getWidth(), getHeight());
                 if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
                     backgroundColorTemp.setBackgroundColor(bottomNavigationItems.get(itemIndex).getColor());
@@ -315,28 +327,33 @@ public class BottomNavigationView extends RelativeLayout {
                     });
                     changeBackgroundColor.start();
                 } else {
-                    BottomNavigationUtils.backgroundColorChange
+                    BottomNavigationUtils.changeViewBackgroundColor
                             (container, bottomNavigationItems.get(currentItem).getColor(), bottomNavigationItems.get(itemIndex).getColor());
                 }
+
             } else if (i == currentItem) {
                 View view = viewList.get(i).findViewById(com.luseen.luseenbottomnavigation.R.id.bottom_navigation_container);
                 final TextView title = (TextView) view.findViewById(com.luseen.luseenbottomnavigation.R.id.bottom_navigation_item_title);
                 final ImageView icon = (ImageView) view.findViewById(com.luseen.luseenbottomnavigation.R.id.bottom_navigation_item_icon);
+
                 if (bottomNavigationItems.get(i).getImageResourceActive() != 0) {
                     icon.setImageResource((bottomNavigationItems.get(i).getImageResource()));
                 } else {
-                    BottomNavigationUtils.imageColorChange(icon, itemActiveColorWithoutColoredBackground, itemInactiveColor);
+                    BottomNavigationUtils.changeImageColorFilter(icon, itemActiveColorWithoutColoredBackground, itemInactiveColor);
                 }
+
                 BottomNavigationUtils.changeTextColor(title, itemActiveColorWithoutColoredBackground, itemInactiveColor);
                 BottomNavigationUtils.changeTextSize(title, textActiveSize, withText ? textInactiveSize : 0);
+
                 if (isTablet)
                     BottomNavigationUtils.changeRightPadding(view, viewActivePaddingTop, withText ? viewInactivePaddingTop : viewInactivePaddingTopWithoutText);
                 else
-                    BottomNavigationUtils.changeTopPadding(view, viewActivePaddingTop, withText ? viewInactivePaddingTop : viewInactivePaddingTopWithoutText);
+                    BottomNavigationUtils.changeViewTopPadding(view, viewActivePaddingTop, withText ? viewInactivePaddingTop : viewInactivePaddingTopWithoutText);
+
                 icon.animate()
                         .setDuration(150)
-                        .scaleX(1)
-                        .scaleY(1)
+                        .scaleX((float) 0.9)
+                        .scaleY((float) 0.9)
                         .start();
             }
         }
@@ -485,5 +502,29 @@ public class BottomNavigationView extends RelativeLayout {
     public void setFont(Typeface font) {
         isCustomFont = true;
         this.font = font;
+    }
+
+    /**
+     * get item text size on active status
+     *
+     * @return font size
+     */
+    public float getTextActiveSize() {
+        return textActiveSize;
+    }
+
+    /**
+     * get item text size on inactive status
+     *
+     * @return font size
+     */
+    public float getTextInactiveSize() {
+        return textInactiveSize;
+    }
+
+
+    public BottomNavigationItem getItem(int position) {
+        onBottomNavigationItemClick(position);
+        return bottomNavigationItems.get(position);
     }
 }

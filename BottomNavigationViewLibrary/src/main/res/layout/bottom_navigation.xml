@@ -17,6 +17,8 @@
         android:id="@+id/bottom_navigation_item_icon"
         android:layout_width="@dimen/bottom_navigation_icon"
         android:layout_height="@dimen/bottom_navigation_icon"
+        android:scaleY=".9"
+        android:scaleX=".9"
         android:layout_gravity="center_horizontal"
         android:gravity="center" />
 
