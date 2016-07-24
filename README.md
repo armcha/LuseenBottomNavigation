@@ -23,14 +23,14 @@ Download
 
 Gradle:
 ```groovy
-compile 'com.github.armcha:LuseenBottomNavigation:1.8.0'
+compile 'com.github.armcha:LuseenBottomNavigation:1.8.2'
 ```
 Maven:
 ```xml
 <dependency>
   <groupId>com.github.armcha</groupId>
   <artifactId>LuseenBottomNavigation</artifactId>
-  <version>1.8.0</version>
+  <version>1.8.2</version>
   <type>pom</type>
 </dependency>
 ```
